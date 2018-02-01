@@ -308,7 +308,7 @@ public class FormUsuario extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -326,6 +326,20 @@ public class FormUsuario extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(jTableUsuario);
+        if (jTableUsuario.getColumnModel().getColumnCount() > 0) {
+            jTableUsuario.getColumnModel().getColumn(0).setMinWidth(30);
+            jTableUsuario.getColumnModel().getColumn(0).setPreferredWidth(40);
+            jTableUsuario.getColumnModel().getColumn(0).setMaxWidth(50);
+            jTableUsuario.getColumnModel().getColumn(1).setMinWidth(90);
+            jTableUsuario.getColumnModel().getColumn(1).setPreferredWidth(150);
+            jTableUsuario.getColumnModel().getColumn(1).setMaxWidth(200);
+            jTableUsuario.getColumnModel().getColumn(2).setMinWidth(80);
+            jTableUsuario.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jTableUsuario.getColumnModel().getColumn(2).setMaxWidth(160);
+            jTableUsuario.getColumnModel().getColumn(3).setMinWidth(80);
+            jTableUsuario.getColumnModel().getColumn(3).setPreferredWidth(100);
+            jTableUsuario.getColumnModel().getColumn(3).setMaxWidth(160);
+        }
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);

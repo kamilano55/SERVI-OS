@@ -13,22 +13,17 @@ public class Contrato {
     
     private int idcontrato;
     private String tipodesc;
-    private String dt_inic;
-    private String dt_fim;
     private String contexto;
     private double valor;
 
     public Contrato() {
     }
 
-    public Contrato(int idcontrato, String tipodesc, String dt_inic, String dt_fim, String contexto, double valor) {
+    public Contrato(int idcontrato, String tipodesc, String contexto, double valor) {
         this.idcontrato = idcontrato;
         this.tipodesc = tipodesc;
-        this.dt_inic = dt_inic;
-        this.dt_fim = dt_fim;
         this.contexto = contexto;
         this.valor = valor;
-        
     }
 
     public int getIdcontrato() {
@@ -47,22 +42,6 @@ public class Contrato {
         this.tipodesc = tipodesc;
     }
 
-    public String getDt_inic() {
-        return dt_inic;
-    }
-
-    public void setDt_inic(String dt_inic) {
-        this.dt_inic = dt_inic;
-    }
-
-    public String getDt_fim() {
-        return dt_fim;
-    }
-
-    public void setDt_fim(String dt_fim) {
-        this.dt_fim = dt_fim;
-    }
-
     public String getContexto() {
         return contexto;
     }
@@ -78,4 +57,6 @@ public class Contrato {
     public void setValor(double valor) {
         this.valor = valor;
     }
+
+    
 }

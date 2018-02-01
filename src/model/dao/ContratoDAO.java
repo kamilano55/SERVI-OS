@@ -27,9 +27,9 @@ public class ContratoDAO {
         con = connection.ConnectionFactory.getConnection();
         
     }
-    public boolean save(Contrato contrato){
+    public boolean saveContrato(Contrato contrato){
         
-       String sql = "INSERT INTO contrato(tipodesc, dt_inic, dt_fim, contexto, valor) VALUES (?,?,?,?,?)";
+       String sql = "INSERT INTO contrato(tipodesc, contexto, valor) VALUES (?,?,?)";
 
         PreparedStatement stmt = null;
 
@@ -37,10 +37,8 @@ public class ContratoDAO {
             stmt = con.prepareStatement(sql);
 
             stmt.setString(1, contrato.getTipodesc());
-            stmt.setString(2, contrato.getDt_inic());
-            stmt.setString(3, contrato.getDt_fim());
-            stmt.setString(4, contrato.getContexto());
-            stmt.setDouble(5, contrato.getValor());
+            stmt.setString(2, contrato.getContexto());
+            stmt.setDouble(3, contrato.getValor());
             
 
             stmt.executeUpdate();
@@ -56,20 +54,19 @@ public class ContratoDAO {
         }
     }
     
-    public boolean update(Contrato contrato){
+    public boolean updateContrato(Contrato contrato){
         
-        String sql = "UPDATE contrato SET tipodesc = ?, dt_inic = ?, dt_fim = ?, contexto = ?, valor = ? WHERE idcontrato = ?";
+        String sql = "UPDATE contrato SET tipodesc = ?, contexto = ?, valor = ? WHERE idcontrato = ?";
         PreparedStatement stmt = null;
         
         try {
             stmt = con.prepareStatement(sql);
             
             stmt.setString(1, contrato.getTipodesc());
-            stmt.setString(2, contrato.getDt_inic());
-            stmt.setString(3, contrato.getDt_fim());
-            stmt.setString(4, contrato.getContexto());
-            stmt.setDouble(5, contrato.getValor());
-            stmt.setInt(6, contrato.getIdcontrato());
+            stmt.setString(2, contrato.getContexto());
+            stmt.setDouble(3, contrato.getValor());
+            
+            stmt.setInt(4, contrato.getIdcontrato());
             
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Atualizado com sucesso!! ");
@@ -83,7 +80,7 @@ public class ContratoDAO {
         }
     }
     
-    public boolean delete(Contrato contrato) {
+    public boolean deleteContrato(Contrato contrato) {
 
         String sql;
         sql = "DELETE FROM contrato WHERE idcontrato =?";
@@ -127,8 +124,6 @@ public class ContratoDAO {
 
                 contrato.setIdcontrato(rs.getInt("idcontrato"));
                 contrato.setTipodesc(rs.getString("tipodesc"));
-                contrato.setDt_inic(rs.getString("dt_inic"));
-                contrato.setDt_fim(rs.getString("dt_fim"));
                 contrato.setContexto(rs.getString("contexto"));
                 contrato.setValor(rs.getDouble("valor"));
                 
@@ -146,7 +141,7 @@ public class ContratoDAO {
         return contratos;
     }
     
-    public List<Contrato> readForType(String tipo) {
+    public List<Contrato> readForTypeContrato(String tipo) {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -154,8 +149,8 @@ public class ContratoDAO {
         List<Contrato> contratos = new ArrayList<>();
 
         try {
-            stmt = con.prepareStatement("SELECT * FROM contrato WHERE tipo LIKE ?");
-            stmt.setString(0, "%" + tipo + "%");
+            stmt = con.prepareStatement("SELECT * FROM contrato WHERE tipodesc LIKE ?");
+            stmt.setString(1, "%" + tipo + "%");
             rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -165,8 +160,6 @@ public class ContratoDAO {
 
                 contrato.setIdcontrato(rs.getInt("idcontrato"));
                 contrato.setTipodesc(rs.getString("tipodesc"));
-                contrato.setDt_inic(rs.getString("dt_inic"));
-                contrato.setDt_fim(rs.getString("dt_fim"));
                 contrato.setContexto(rs.getString("contexto"));
                 contrato.setValor(rs.getDouble("valor"));
                 
