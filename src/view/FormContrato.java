@@ -220,7 +220,7 @@ public class FormContrato extends javax.swing.JFrame {
 
         jLabel2.setText("* TIPO");
 
-        jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha", "Manutenção preventiva com contrato com cobertura de peças", "Manutenção preventiva com contrato sem cobertura de peças", "Manutenção Preventiva sem contrato", "Manutenção corretiva com contrato e com cobertura de peças", "Manutenção corretiva com contrato e sem cobertura de peças", "Manutenção corretiva sem contrato", "Orçamento para cliente com contrato", "Orçamento para cliente sem contrato" }));
+        jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha", "Manutenção preventiva", "Manutenção corretiva", "Manutenção preditiva" }));
 
         lblContexto.setText("* CONTEXTO");
 

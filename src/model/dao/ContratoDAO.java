@@ -133,7 +133,7 @@ public class ContratoDAO {
 
             }
         } catch (SQLException ex) {
-            System.err.println("Erro: " + ex);
+            System.err.println("Erro readAllContrato: " + ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }

@@ -58,5 +58,10 @@ public class Contrato {
         this.valor = valor;
     }
 
+    @Override
+    public String toString() {
+        return getIdcontrato() + " - " + getTipodesc(); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
 }

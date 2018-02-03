@@ -30,7 +30,7 @@ public class FornecedorDAO {
         con = ConnectionFactory.getConnection();
     }
 
-    public boolean save(Fornecedor fornecedor) {
+    public boolean saveFornecedor(Fornecedor fornecedor) {
 
         String sql = "INSERT INTO fornecedor(nome, cnpj, rua, numero, complemento, bairro, cep, referencia, gps, fone1, fone2, celular, url, email, contato, estado_idestado, cidade_idcidade) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
@@ -70,7 +70,7 @@ public class FornecedorDAO {
 
     }
 
-    public boolean update(Fornecedor fornecedor) {
+    public boolean updateFornecedor(Fornecedor fornecedor) {
 
         String sql = "UPDATE fornecedor SET nome = ?, cnpj = ?, rua = ?, numero = ?, complemento = ?, bairro = ?, cep = ?, referencia = ?, gps = ?, fone1 = ?, fone2 = ?, celular = ?, url = ?, email = ?, contato = ?, estado_idestado = ?, cidade_idcidade = ? WHERE idfornec = ?";
 
@@ -111,7 +111,7 @@ public class FornecedorDAO {
 
     }
 
-    public boolean delete(Fornecedor fornecedor) {
+    public boolean deleteFornecedor(Fornecedor fornecedor) {
 
         String sql;
         sql = "DELETE FROM fornecedor WHERE idfornec = ?";
@@ -188,7 +188,7 @@ public class FornecedorDAO {
         return fornecedores;
     }
 
-    public List<Fornecedor> readForName(String nome) {
+    public List<Fornecedor> readForNameFrnecedor(String nome) {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -236,6 +236,70 @@ public class FornecedorDAO {
             }
         } catch (SQLException ex) {
             System.err.println("Erro: " + ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+
+        return fornecedores;
+    }
+    
+    public List<Fornecedor> readTableAllFornecedor() {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        List<Fornecedor> fornecedores = new ArrayList<>();
+
+        try {
+            stmt = con.prepareStatement("SELECT f.idfornec, f.nome, f.cnpj, f.rua, f.numero, f.complemento, f.bairro,\n" +
+"                    f.cep, f.referencia, f.gps, f.fone1, f.fone2, f.celular, f.url, f.email, f.contato,\n" +
+"                    e.idestado, e.nome as estnome, e.uf, c.idcidade, c.nome as cidnome,\n" +
+"                    c.estado_idestado\n" +
+"                    FROM fornecedor f\n" +
+"                    INNER JOIN estado e\n" +
+"                    INNER JOIN cidade c ON f.estado_idestado = e.idestado and f.cidade_idcidade = c.idcidade;");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+
+                Fornecedor f = new Fornecedor();
+                
+                f.setIdfornec(rs.getInt("idfornec"));
+                f.setNome(rs.getString("nome"));
+                f.setCnpj(rs.getString("cnpj"));
+                f.setRua(rs.getString("rua"));
+                f.setNumero(rs.getString("numero"));
+                f.setComplemento(rs.getString("complemento"));
+                f.setBairro(rs.getString("bairro"));
+                f.setCep(rs.getString("cep"));
+                f.setReferencia(rs.getString("referencia"));
+                f.setGps(rs.getString("gps"));
+                f.setFone1(rs.getString("fone1"));
+                f.setFone2(rs.getString("fone2"));
+                f.setCelular(rs.getString("celular"));
+                f.setUrl(rs.getString("url"));
+                f.setEmail(rs.getString("email"));
+                f.setContato(rs.getString("contato"));
+                
+                Estado estado = new Estado();
+                estado.setIdestado(rs.getInt("idestado"));
+                estado.setNome(rs.getString("estnome"));
+                estado.setUf(rs.getString("uf"));
+                
+                f.setEstado(estado);
+                
+                Cidade cidade = new Cidade();
+                cidade.setIdcidade(rs.getInt("idcidade"));
+                cidade.setNome(rs.getString("cidnome"));
+//                cidade.setEstado(rs.getObject("estado_idestado", int));
+                
+                f.setCidade(cidade);
+
+                fornecedores.add(f);
+
+            }
+        } catch (SQLException ex) {
+            System.err.println("Erro readTableAllFornecedor: " + ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }

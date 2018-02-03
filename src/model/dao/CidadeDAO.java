@@ -112,7 +112,6 @@ public class CidadeDAO {
             while (rs.next()) {
 
                 Cidade cidade = new Cidade();
-
                 cidade.setIdcidade(rs.getInt("idcidade"));
                 cidade.setNome(rs.getString("nome"));
                 

@@ -294,6 +294,9 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="btnNovo">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/imagens/if_users_85022.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="NOVO"/>
           </Properties>
           <Events>
@@ -302,6 +305,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnSalvar">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/imagens/if_users-add_85019.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="SALVAR"/>
           </Properties>
           <Events>
@@ -310,6 +316,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnExcluir">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/imagens/if_users-delete2_44073.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="EXCLUIR"/>
           </Properties>
           <Events>
@@ -318,6 +327,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnAtualizar">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/imagens/if_users-edit_60154.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="ATUALIZAR"/>
           </Properties>
           <Events>
@@ -326,6 +338,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnLimpar">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/imagens/limpar.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="LIMPAR"/>
           </Properties>
           <Events>
@@ -350,7 +365,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="99" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="91" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -425,6 +440,9 @@
     </Container>
     <Component class="javax.swing.JButton" name="btnSair">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/imagens/if_users-go_44076.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="SAIR"/>
       </Properties>
       <Events>
@@ -469,6 +487,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnConsulta">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/imagens/Consulta.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="..."/>
           </Properties>
           <Events>

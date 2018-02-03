@@ -319,16 +319,11 @@
         <Component class="javax.swing.JComboBox" name="jComboBoxTipo">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="9">
+              <StringArray count="4">
                 <StringItem index="0" value="Escolha"/>
-                <StringItem index="1" value="Manuten&#xe7;&#xe3;o preventiva com contrato com cobertura de pe&#xe7;as"/>
-                <StringItem index="2" value="Manuten&#xe7;&#xe3;o preventiva com contrato sem cobertura de pe&#xe7;as"/>
-                <StringItem index="3" value="Manuten&#xe7;&#xe3;o Preventiva sem contrato"/>
-                <StringItem index="4" value="Manuten&#xe7;&#xe3;o corretiva com contrato e com cobertura de pe&#xe7;as"/>
-                <StringItem index="5" value="Manuten&#xe7;&#xe3;o corretiva com contrato e sem cobertura de pe&#xe7;as"/>
-                <StringItem index="6" value="Manuten&#xe7;&#xe3;o corretiva sem contrato"/>
-                <StringItem index="7" value="Or&#xe7;amento para cliente com contrato"/>
-                <StringItem index="8" value="Or&#xe7;amento para cliente sem contrato"/>
+                <StringItem index="1" value="Manuten&#xe7;&#xe3;o preventiva"/>
+                <StringItem index="2" value="Manuten&#xe7;&#xe3;o corretiva"/>
+                <StringItem index="3" value="Manuten&#xe7;&#xe3;o preditiva"/>
               </StringArray>
             </Property>
           </Properties>

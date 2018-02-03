@@ -28,17 +28,18 @@ public class Cliente {
     private String celular;
     private String url;
     private String email;
+    private String contato;
+    private String cargo;
     private String foto;
     private String obs;
     private Estado estado;
     private Cidade cidade;
     private Contrato contrato;
-    
 
     public Cliente() {
     }
 
-    public Cliente(int idcliente, String cnpjcpf, String nome, String rua, String numero, String complemento, String bairro, String cep, String referencia, String gps, String fone1, String fone2, String celular, String url, String email, String foto, String obs, Estado estado, Cidade cidade, Contrato contrato) {
+    public Cliente(int idcliente, String cnpjcpf, String nome, String rua, String numero, String complemento, String bairro, String cep, String referencia, String gps, String fone1, String fone2, String celular, String url, String email, String contato, String cargo, String foto, String obs, Estado estado, Cidade cidade, Contrato contrato) {
         this.idcliente = idcliente;
         this.cnpjcpf = cnpjcpf;
         this.nome = nome;
@@ -54,12 +55,15 @@ public class Cliente {
         this.celular = celular;
         this.url = url;
         this.email = email;
+        this.contato = contato;
+        this.cargo = cargo;
         this.foto = foto;
         this.obs = obs;
         this.estado = estado;
         this.cidade = cidade;
         this.contrato = contrato;
     }
+    
 
     public int getIdcliente() {
         return idcliente;
@@ -181,6 +185,22 @@ public class Cliente {
         this.email = email;
     }
 
+    public String getContato() {
+        return contato;
+    }
+
+    public void setContato(String contato) {
+        this.contato = contato;
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
     public String getFoto() {
         return foto;
     }
@@ -220,6 +240,4 @@ public class Cliente {
     public void setContrato(Contrato contrato) {
         this.contrato = contrato;
     }
-
-    
 }

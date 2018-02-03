@@ -234,6 +234,7 @@ public class FormUsuario extends javax.swing.JFrame {
                     .addComponent(jComboBoXTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
+        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_users_85022.png"))); // NOI18N
         btnNovo.setText("NOVO");
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -241,6 +242,7 @@ public class FormUsuario extends javax.swing.JFrame {
             }
         });
 
+        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_users-add_85019.png"))); // NOI18N
         btnSalvar.setText("SALVAR");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -248,6 +250,7 @@ public class FormUsuario extends javax.swing.JFrame {
             }
         });
 
+        btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_users-delete2_44073.png"))); // NOI18N
         btnExcluir.setText("EXCLUIR");
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -255,6 +258,7 @@ public class FormUsuario extends javax.swing.JFrame {
             }
         });
 
+        btnAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_users-edit_60154.png"))); // NOI18N
         btnAtualizar.setText("ATUALIZAR");
         btnAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -262,6 +266,7 @@ public class FormUsuario extends javax.swing.JFrame {
             }
         });
 
+        btnLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/limpar.png"))); // NOI18N
         btnLimpar.setText("LIMPAR");
         btnLimpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -354,10 +359,11 @@ public class FormUsuario extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
+        btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_users-go_44076.png"))); // NOI18N
         btnSair.setText("SAIR");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -367,6 +373,7 @@ public class FormUsuario extends javax.swing.JFrame {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("CONSULTA POR NOME"));
 
+        btnConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Consulta.png"))); // NOI18N
         btnConsulta.setText("...");
         btnConsulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
