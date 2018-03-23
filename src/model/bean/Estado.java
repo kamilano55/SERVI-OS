@@ -52,7 +52,7 @@ public class Estado {
 
     @Override
     public String toString() {
-        return getIdestado() + " - " + getNome() + "(" + getUf() + ")";//To change body of generated methods, choose Tools | Templates.
+        return getNome() + "(" + getUf() + ")";//To change body of generated methods, choose Tools | Templates.
     }
 
     

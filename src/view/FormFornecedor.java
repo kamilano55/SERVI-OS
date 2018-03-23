@@ -5,6 +5,7 @@
  */
 package view;
 
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -118,7 +119,7 @@ public class FormFornecedor extends javax.swing.JFrame {
         modelo.setNumRows(0);
         FornecedorDAO pdao = new FornecedorDAO();
         
-        for (Fornecedor p : pdao.readForNameFrnecedor(nome)) {
+        for (Fornecedor p : pdao.readForNameFornecedor(nome)) {
             modelo.addRow(new Object[]{
                 p.getIdfornec(),
                 p.getCnpj(),
@@ -137,7 +138,8 @@ public class FormFornecedor extends javax.swing.JFrame {
                 p.getCep(),
                 p.getEstado(),
                 p.getCidade(),
-                p.getGps(),});
+                p.getGps()
+            });
         }
     }
 
@@ -195,7 +197,6 @@ public class FormFornecedor extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnNovo = new javax.swing.JButton();
-        btnSair = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
@@ -203,9 +204,10 @@ public class FormFornecedor extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableFornecedor = new javax.swing.JTable();
+        btnSair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("CADASTRO DE CLIENTE");
+        setTitle("CADASTRO DE FORNECEDORES");
 
         txtId.setEditable(false);
         txtId.setForeground(new java.awt.Color(255, 51, 51));
@@ -224,11 +226,6 @@ public class FormFornecedor extends javax.swing.JFrame {
             }
         });
 
-        txtGps.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtGpsActionPerformed(evt);
-            }
-        });
         txtGps.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtGpsKeyPressed(evt);
@@ -285,23 +282,6 @@ public class FormFornecedor extends javax.swing.JFrame {
         jComboBoxEstado.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jComboBoxEstadoMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jComboBoxEstadoMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jComboBoxEstadoMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jComboBoxEstadoMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jComboBoxEstadoMouseReleased(evt);
-            }
-        });
-        jComboBoxEstado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxEstadoActionPerformed(evt);
             }
         });
         jComboBoxEstado.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -587,12 +567,6 @@ public class FormFornecedor extends javax.swing.JFrame {
             }
         });
 
-        txtConsulta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtConsultaActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -634,9 +608,9 @@ public class FormFornecedor extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -665,15 +639,6 @@ public class FormFornecedor extends javax.swing.JFrame {
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNovoActionPerformed(evt);
-            }
-        });
-
-        btnSair.setBackground(new java.awt.Color(0, 102, 204));
-        btnSair.setForeground(new java.awt.Color(255, 255, 255));
-        btnSair.setText("SAIR");
-        btnSair.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSairActionPerformed(evt);
             }
         });
 
@@ -706,11 +671,6 @@ public class FormFornecedor extends javax.swing.JFrame {
                 btnSalvarActionPerformed(evt);
             }
         });
-        btnSalvar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnSalvarKeyPressed(evt);
-            }
-        });
 
         btnAtualizar.setBackground(new java.awt.Color(102, 153, 255));
         btnAtualizar.setForeground(new java.awt.Color(255, 255, 255));
@@ -733,26 +693,23 @@ public class FormFornecedor extends javax.swing.JFrame {
                     .addComponent(btnExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnLimpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         jTableFornecedor.setModel(new javax.swing.table.DefaultTableModel(
@@ -783,17 +740,33 @@ public class FormFornecedor extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTableFornecedor);
 
+        btnSair.setBackground(new java.awt.Color(0, 102, 204));
+        btnSair.setForeground(new java.awt.Color(255, 255, 255));
+        btnSair.setText("SAIR");
+        btnSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSairActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1316, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(149, 149, 149))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -810,7 +783,7 @@ public class FormFornecedor extends javax.swing.JFrame {
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -820,9 +793,9 @@ public class FormFornecedor extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -1259,8 +1232,8 @@ public class FormFornecedor extends javax.swing.JFrame {
             jComboBoxCidade.addItem(c);
         }
         
-        jComboBoxCidade.setSelectedIndex(0);
-        jComboBoxEstado.setSelectedIndex(0);
+//        jComboBoxCidade.setSelectedIndex(0);
+//        jComboBoxEstado.setSelectedIndex(0);
 
 // As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
         if (jTableFornecedor.getSelectedRow() != -1) {
@@ -1308,10 +1281,12 @@ public class FormFornecedor extends javax.swing.JFrame {
             
             Estado est = (Estado) jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 15);
             est.setIdestado(Integer.parseInt(String.valueOf(est.getIdestado())));
+            JOptionPane.showMessageDialog(null, est.getIdestado());
             jComboBoxEstado.setSelectedIndex(est.getIdestado());
             
             Cidade cid = (Cidade) jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 16);
             cid.setIdcidade(Integer.parseInt(String.valueOf(cid.getIdcidade())));
+            JOptionPane.showMessageDialog(null, cid.getIdcidade());
             jComboBoxCidade.setSelectedIndex(cid.getIdcidade());
             
             txtGps.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 17).toString());
@@ -1374,15 +1349,15 @@ public class FormFornecedor extends javax.swing.JFrame {
             txtReferencia.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 13).toString());
             jFormattedTextCep.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 14).toString());
             
-            Estado est = (Estado) jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 17);
+            Estado est = (Estado) jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 15);
             est.setIdestado(Integer.parseInt(String.valueOf(est.getIdestado())));
             jComboBoxEstado.setSelectedIndex(est.getIdestado());
             
-            Cidade cid = (Cidade) jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 18);
+            Cidade cid = (Cidade) jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 16);
             cid.setIdcidade(Integer.parseInt(String.valueOf(cid.getIdcidade())));
             jComboBoxCidade.setSelectedIndex(cid.getIdcidade());
             
-            txtGps.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 20).toString());
+            txtGps.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 17).toString());
         }
     }//GEN-LAST:event_jTableFornecedorKeyReleased
 
@@ -1442,13 +1417,6 @@ public class FormFornecedor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBoxCidadeKeyPressed
 
-    private void jComboBoxEstadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxEstadoItemStateChanged
-    }//GEN-LAST:event_jComboBoxEstadoItemStateChanged
-
-    private void txtGpsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGpsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtGpsActionPerformed
-
     private void txtGpsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtGpsKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -1456,65 +1424,12 @@ public class FormFornecedor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtGpsKeyPressed
 
-    private void btnSalvarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnSalvarKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalvarKeyPressed
-
-    private void txtConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConsultaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtConsultaActionPerformed
-
     private void btnConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultaActionPerformed
         // TODO add your handling code here:
 
         readTableforNome(txtConsulta.getText());
 
     }//GEN-LAST:event_btnConsultaActionPerformed
-
-    private void jComboBoxEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxEstadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxEstadoActionPerformed
-
-    private void jComboBoxEstadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxEstadoMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxEstadoMouseClicked
-
-    private void jComboBoxEstadoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxEstadoMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxEstadoMouseEntered
-
-    private void jComboBoxEstadoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxEstadoMousePressed
-        // TODO add your handling code here:
-        if (jComboBoxEstado.getSelectedItem() != "Escolha") {
-            
-            Estado estado = (Estado) jComboBoxEstado.getSelectedItem();
-            
-            estado.setIdestado(estado.getIdestado());
-            jComboBoxEstado.setSelectedIndex(estado.getIdestado());
-            
-            CidadeDAO citdao = new CidadeDAO();
-            jComboBoxCidade.removeAllItems();
-            jComboBoxCidade.addItem("Escolha");
-            for (Cidade c : citdao.readComboBoxCidade(estado.getIdestado())) {
-                jComboBoxCidade.addItem(c);
-            }
-        } else {
-            jComboBoxCidade.removeAllItems();
-            jComboBoxCidade.addItem("Escolha");
-            CidadeDAO citdao = new CidadeDAO();
-            for (Cidade c : citdao.readAllCidade()) {
-                jComboBoxCidade.addItem(c);
-            }
-            jComboBoxCidade.setSelectedIndex(0);
-        }
-    }//GEN-LAST:event_jComboBoxEstadoMousePressed
-
-    private void jComboBoxEstadoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxEstadoMouseReleased
-    }//GEN-LAST:event_jComboBoxEstadoMouseReleased
-
-    private void jComboBoxEstadoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxEstadoMouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxEstadoMouseExited
 
     private void jFormattedTextCelularKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextCelularKeyPressed
         // TODO add your handling code here:
@@ -1571,6 +1486,53 @@ public class FormFornecedor extends javax.swing.JFrame {
             jFormattedTextCelular.requestFocus();
         }
     }//GEN-LAST:event_jFormattedTextFone2KeyPressed
+
+    private void jComboBoxEstadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxEstadoItemStateChanged
+        // TODO add your handling code here:
+//        if (jComboBoxEstado.getSelectedItem() != ("Escolha")) {
+//                if (evt.getStateChange() == ItemEvent.SELECTED) {
+//                    Estado est = (Estado) jComboBoxEstado.getSelectedItem();
+//                    est.setIdestado(est.getIdestado());
+//
+//                    CidadeDAO cidao = new CidadeDAO();
+//                    jComboBoxCidade.removeAllItems();
+//                    jComboBoxCidade.addItem("Escolha");
+//                    for (Cidade e : cidao.readComboBoxCidade(est.getIdestado())) {
+//                        jComboBoxCidade.addItem(e);
+//                    }
+//                }
+//            } else {
+//                jComboBoxCidade.removeAllItems();
+//                jComboBoxCidade.addItem("Escolha");
+//                jComboBoxCidade.setSelectedIndex(0);
+//            }
+    }//GEN-LAST:event_jComboBoxEstadoItemStateChanged
+
+    private void jComboBoxEstadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxEstadoMouseClicked
+        // TODO add your handling code here:
+        if (jComboBoxEstado.getSelectedItem() != "Escolha") {
+
+            Estado estado = (Estado) jComboBoxEstado.getSelectedItem();
+
+            estado.setIdestado(estado.getIdestado());
+            jComboBoxEstado.setSelectedIndex(estado.getIdestado());
+
+            CidadeDAO citdao = new CidadeDAO();
+            jComboBoxCidade.removeAllItems();
+            jComboBoxCidade.addItem("Escolha");
+            for (Cidade c : citdao.readComboBoxCidade(estado.getIdestado())) {
+                jComboBoxCidade.addItem(c);
+            }
+        } else {
+            jComboBoxCidade.removeAllItems();
+            jComboBoxCidade.addItem("Escolha");
+            CidadeDAO citdao = new CidadeDAO();
+            for (Cidade c : citdao.readAllCidade()) {
+                jComboBoxCidade.addItem(c);
+            }
+            jComboBoxCidade.setSelectedIndex(0);
+        }
+    }//GEN-LAST:event_jComboBoxEstadoMouseClicked
 
     /**
      * @param args the command line arguments

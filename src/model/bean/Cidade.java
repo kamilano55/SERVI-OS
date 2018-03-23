@@ -54,7 +54,7 @@ public class Cidade {
 
     @Override
     public String toString() {
-        return getIdcidade() + " - " + getNome();//To change body of generated methods, choose Tools | Templates.
+        return getNome();//To change body of generated methods, choose Tools | Templates.
     }
     
     

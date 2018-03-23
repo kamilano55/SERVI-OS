@@ -188,7 +188,7 @@ public class FornecedorDAO {
         return fornecedores;
     }
 
-    public List<Fornecedor> readForNameFrnecedor(String nome) {
+    public List<Fornecedor> readForNameFornecedor(String nome) {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -196,7 +196,12 @@ public class FornecedorDAO {
         List<Fornecedor> fornecedores = new ArrayList<>();
 
         try {
-            stmt = con.prepareStatement("SELECT * FROM fornecedor WHERE nome LIKE ?");
+            stmt = con.prepareStatement("SELECT f.idfornec, f.cnpj, f.nome, f.contato, f.url, f.email, f.fone1, f.fone2, f.celular, f.rua, f.numero, f.complemento, f.bairro, f.cep,\n" +
+" f.referencia, e.idestado, e.nome as estnome, e.uf, c.idcidade, c.nome as cidnome, f.gps\n" +
+" FROM fornecedor f\n" +
+" INNER JOIN estado e \n" +
+" INNER JOIN cidade c ON f.estado_idestado = e.idestado and f.cidade_idcidade = c.idcidade WHERE f.nome LIKE ?");
+            
             stmt.setString(1, "%" + nome + "%");
             rs = stmt.executeQuery();
 
@@ -204,38 +209,42 @@ public class FornecedorDAO {
 
                 Fornecedor fornecedor = new Fornecedor();
 
-                fornecedor.setNome(rs.getString("nome"));
+                fornecedor.setIdfornec(rs.getInt("idfornec"));
                 fornecedor.setCnpj(rs.getString("cnpj"));
+                fornecedor.setNome(rs.getString("nome"));
+                fornecedor.setContato(rs.getString("contato"));
+                fornecedor.setUrl(rs.getString("url"));
+                fornecedor.setEmail(rs.getString("email"));
+                fornecedor.setFone1(rs.getString("fone1"));
+                fornecedor.setFone2(rs.getString("fone2"));
+                fornecedor.setCelular(rs.getString("celular"));
+                
                 fornecedor.setRua(rs.getString("rua"));
                 fornecedor.setNumero(rs.getString("numero"));
                 fornecedor.setComplemento(rs.getString("complemento"));
                 fornecedor.setBairro(rs.getString("bairro"));
                 fornecedor.setCep(rs.getString("cep"));
                 fornecedor.setReferencia(rs.getString("referencia"));
-                fornecedor.setGps(rs.getString("gps"));
-                fornecedor.setFone1(rs.getString("fone1"));
-                fornecedor.setFone2(rs.getString("fone2"));
-                fornecedor.setCelular(rs.getString("celular"));
-                fornecedor.setUrl(rs.getString("url"));
-                fornecedor.setEmail(rs.getString("email"));
-                fornecedor.setContato(rs.getString("contato"));
                 
                 Estado estado = new Estado();
                 estado.setIdestado(rs.getInt("idestado"));
-                
+                estado.setNome(rs.getString("estnome"));
+                estado.setUf(rs.getString("uf"));
                 fornecedor.setEstado(estado);
                 
                 Cidade cidade = new Cidade();
                 cidade.setIdcidade(rs.getInt("idcidade"));
-                
+                cidade.setNome(rs.getString("cidnome"));
                 fornecedor.setCidade(cidade);
+                
+                fornecedor.setGps(rs.getString("gps"));
                 
 
                 fornecedores.add(fornecedor);
 
             }
         } catch (SQLException ex) {
-            System.err.println("Erro: " + ex);
+            System.err.println("Erro: readForNameFornecedor" + ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
@@ -251,51 +260,49 @@ public class FornecedorDAO {
         List<Fornecedor> fornecedores = new ArrayList<>();
 
         try {
-            stmt = con.prepareStatement("SELECT f.idfornec, f.nome, f.cnpj, f.rua, f.numero, f.complemento, f.bairro,\n" +
-"                    f.cep, f.referencia, f.gps, f.fone1, f.fone2, f.celular, f.url, f.email, f.contato,\n" +
-"                    e.idestado, e.nome as estnome, e.uf, c.idcidade, c.nome as cidnome,\n" +
-"                    c.estado_idestado\n" +
-"                    FROM fornecedor f\n" +
-"                    INNER JOIN estado e\n" +
-"                    INNER JOIN cidade c ON f.estado_idestado = e.idestado and f.cidade_idcidade = c.idcidade;");
+            stmt = con.prepareStatement("SELECT f.idfornec, f.cnpj, f.nome, f.contato, f.url, f.email, f.fone1, f.fone2, f.celular, f.rua, f.numero, f.complemento, f.bairro, f.cep,\n" +
+" f.referencia, e.idestado, e.nome as estnome, e.uf, c.idcidade, c.nome as cidnome, f.gps\n" +
+" FROM fornecedor f\n" +
+" INNER JOIN estado e \n" +
+" INNER JOIN cidade c ON f.estado_idestado = e.idestado and f.cidade_idcidade = c.idcidade;");
             rs = stmt.executeQuery();
 
             while (rs.next()) {
 
-                Fornecedor f = new Fornecedor();
+                Fornecedor fornecedor = new Fornecedor();
+
+                fornecedor.setIdfornec(rs.getInt("idfornec"));
+                fornecedor.setCnpj(rs.getString("cnpj"));
+                fornecedor.setNome(rs.getString("nome"));
+                fornecedor.setContato(rs.getString("contato"));
+                fornecedor.setUrl(rs.getString("url"));
+                fornecedor.setEmail(rs.getString("email"));
+                fornecedor.setFone1(rs.getString("fone1"));
+                fornecedor.setFone2(rs.getString("fone2"));
+                fornecedor.setCelular(rs.getString("celular"));
                 
-                f.setIdfornec(rs.getInt("idfornec"));
-                f.setNome(rs.getString("nome"));
-                f.setCnpj(rs.getString("cnpj"));
-                f.setRua(rs.getString("rua"));
-                f.setNumero(rs.getString("numero"));
-                f.setComplemento(rs.getString("complemento"));
-                f.setBairro(rs.getString("bairro"));
-                f.setCep(rs.getString("cep"));
-                f.setReferencia(rs.getString("referencia"));
-                f.setGps(rs.getString("gps"));
-                f.setFone1(rs.getString("fone1"));
-                f.setFone2(rs.getString("fone2"));
-                f.setCelular(rs.getString("celular"));
-                f.setUrl(rs.getString("url"));
-                f.setEmail(rs.getString("email"));
-                f.setContato(rs.getString("contato"));
+                fornecedor.setRua(rs.getString("rua"));
+                fornecedor.setNumero(rs.getString("numero"));
+                fornecedor.setComplemento(rs.getString("complemento"));
+                fornecedor.setBairro(rs.getString("bairro"));
+                fornecedor.setCep(rs.getString("cep"));
+                fornecedor.setReferencia(rs.getString("referencia"));
                 
                 Estado estado = new Estado();
                 estado.setIdestado(rs.getInt("idestado"));
                 estado.setNome(rs.getString("estnome"));
                 estado.setUf(rs.getString("uf"));
-                
-                f.setEstado(estado);
+                fornecedor.setEstado(estado);
                 
                 Cidade cidade = new Cidade();
                 cidade.setIdcidade(rs.getInt("idcidade"));
                 cidade.setNome(rs.getString("cidnome"));
-//                cidade.setEstado(rs.getObject("estado_idestado", int));
+                fornecedor.setCidade(cidade);
                 
-                f.setCidade(cidade);
+                fornecedor.setGps(rs.getString("gps"));
+                
 
-                fornecedores.add(f);
+                fornecedores.add(fornecedor);
 
             }
         } catch (SQLException ex) {

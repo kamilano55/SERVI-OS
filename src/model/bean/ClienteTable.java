@@ -5,81 +5,53 @@
  */
 package model.bean;
 
-
 /**
  *
- * @author Master
+ * @author MILANO
  */
-public class Cliente {
+public class ClienteTable {
     
-    
-    private int idcliente;
-    private String cnpjcpf;
+    private int id;
     private String nome;
-    private String contato;
-    private String cargo;
     private String rua;
     private String numero;
     private String complemento;
-    private String bairro;
-    private String cep;
     private String referencia;
-    private String gps;
+    private String bairro;
     private String fone1;
     private String fone2;
     private String celular;
-    private String url;
+    private String contato;
     private String email;
-    private String foto;
-    private String obs;
     private Estado estado;
     private Cidade cidade;
-    
 
-    public Cliente() {
+    public ClienteTable() {
     }
 
-    public Cliente(int idcliente, String cnpjcpf, String nome, String contato, String cargo, String rua, String numero, String complemento, String bairro, String cep, String referencia, String gps, String fone1, String fone2, String celular, String url, String email, String foto, String obs, Estado estado, Cidade cidade) {
-        this.idcliente = idcliente;
-        this.cnpjcpf = cnpjcpf;
+    public ClienteTable(int id, String nome, String rua, String numero, String complemento, String referencia, String bairro, String fone1, String fone2, String celular, String contato, String email, Estado estado, Cidade cidade) {
+        this.id = id;
         this.nome = nome;
-        this.contato = contato;
-        this.cargo = cargo;
         this.rua = rua;
         this.numero = numero;
         this.complemento = complemento;
-        this.bairro = bairro;
-        this.cep = cep;
         this.referencia = referencia;
-        this.gps = gps;
+        this.bairro = bairro;
         this.fone1 = fone1;
         this.fone2 = fone2;
         this.celular = celular;
-        this.url = url;
+        this.contato = contato;
         this.email = email;
-        this.foto = foto;
-        this.obs = obs;
         this.estado = estado;
         this.cidade = cidade;
     }
 
-    
-    
-
-    public int getIdcliente() {
-        return idcliente;
+    public int getId() {
+        return id;
     }
 
-    public void setIdcliente(int idcliente) {
-        this.idcliente = idcliente;
-    }
-
-    public String getCnpjcpf() {
-        return cnpjcpf;
-    }
-
-    public void setCnpjcpf(String cnpjcpf) {
-        this.cnpjcpf = cnpjcpf;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -114,22 +86,6 @@ public class Cliente {
         this.complemento = complemento;
     }
 
-    public String getBairro() {
-        return bairro;
-    }
-
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
     public String getReferencia() {
         return referencia;
     }
@@ -138,12 +94,12 @@ public class Cliente {
         this.referencia = referencia;
     }
 
-    public String getGps() {
-        return gps;
+    public String getBairro() {
+        return bairro;
     }
 
-    public void setGps(String gps) {
-        this.gps = gps;
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
     }
 
     public String getFone1() {
@@ -170,22 +126,6 @@ public class Cliente {
         this.celular = celular;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getContato() {
         return contato;
     }
@@ -194,28 +134,12 @@ public class Cliente {
         this.contato = contato;
     }
 
-    public String getCargo() {
-        return cargo;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
-    }
-
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
-    }
-
-    public String getObs() {
-        return obs;
-    }
-
-    public void setObs(String obs) {
-        this.obs = obs;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Estado getEstado() {
@@ -233,10 +157,4 @@ public class Cliente {
     public void setCidade(Cidade cidade) {
         this.cidade = cidade;
     }
-
-    @Override
-    public String toString() {
-        return getNome(); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

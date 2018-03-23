@@ -60,8 +60,6 @@ public class Contrato {
 
     @Override
     public String toString() {
-        return getIdcontrato() + " - " + getTipodesc(); //To change body of generated methods, choose Tools | Templates.
+        return getTipodesc(); //To change body of generated methods, choose Tools | Templates.
     }
-
-    
 }

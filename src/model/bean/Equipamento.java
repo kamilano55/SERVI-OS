@@ -20,13 +20,15 @@ public class Equipamento {
     private String histor_inicial;
     private String gap_manut;
     private String dt_ultmanut;
+    private String dt_inic_contrato;
     private String foto;
     private Cliente cliente;
+    private Contrato contrato;
 
     public Equipamento() {
     }
 
-    public Equipamento(int idequip, String nome, String fabricante, String modelo, String dt_fabric, String dt_instal, String histor_inicial, String gap_manut, String dt_ultmanut, String foto, Cliente cliente) {
+    public Equipamento(int idequip, String nome, String fabricante, String modelo, String dt_fabric, String dt_instal, String histor_inicial, String gap_manut, String dt_ultmanut, String dt_inic_contrato, String foto, Cliente cliente, Contrato contrato) {
         this.idequip = idequip;
         this.nome = nome;
         this.fabricante = fabricante;
@@ -36,9 +38,13 @@ public class Equipamento {
         this.histor_inicial = histor_inicial;
         this.gap_manut = gap_manut;
         this.dt_ultmanut = dt_ultmanut;
+        this.dt_inic_contrato = dt_inic_contrato;
         this.foto = foto;
         this.cliente = cliente;
+        this.contrato = contrato;
     }
+
+    
 
     public int getIdequip() {
         return idequip;
@@ -112,6 +118,16 @@ public class Equipamento {
         this.dt_ultmanut = dt_ultmanut;
     }
 
+    public String getDt_inic_contrato() {
+        return dt_inic_contrato;
+    }
+
+    public void setDt_inic_contrato(String dt_inic_contrato) {
+        this.dt_inic_contrato = dt_inic_contrato;
+    }
+    
+    
+
     public String getFoto() {
         return foto;
     }
@@ -127,4 +143,19 @@ public class Equipamento {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+
+    public Contrato getContrato() {
+        return contrato;
+    }
+
+    public void setContrato(Contrato contrato) {
+        this.contrato = contrato;
+    }
+
+    @Override
+    public String toString() {
+        return getNome(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+   
 }

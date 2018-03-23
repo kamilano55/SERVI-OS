@@ -18,32 +18,29 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import model.bean.Administradora;
 import model.bean.Cidade;
 import model.bean.Cliente;
-import model.bean.Contrato;
 import model.bean.Estado;
-import model.dao.AdministradoraDAO;
 import model.dao.CidadeDAO;
 import model.dao.ClienteDAO;
-import model.dao.ContratoDAO;
+//import model.dao.ContratoDAO;
 import model.dao.EstadoDAO;
 
 /**
  *
  * @author Master
  */
-public class FormCiente extends javax.swing.JFrame {
+public class FormCliente extends javax.swing.JFrame {
 
     /**
      * Creates new form FormAdministradora
      */
-    public FormCiente() {
+    public FormCliente() {
         initComponents();
 
         //As linhas abaixo servem para ordenar a JTableAdmin
-        DefaultTableModel modelo = (DefaultTableModel) jTableContrato.getModel();
-        jTableContrato.setRowSorter(new TableRowSorter(modelo));
+        DefaultTableModel modelo = (DefaultTableModel) jTableCliente.getModel();
+        jTableCliente.setRowSorter(new TableRowSorter(modelo));
 
 //A linha abaixo chama o método que preenche a tabela lendo os dados do banco 
         readTable();
@@ -51,17 +48,17 @@ public class FormCiente extends javax.swing.JFrame {
         comboBox();
 
 //As linhas abaixo preparam botões e campos
+        txtId.setEnabled(false);
         txtCnpjCpf.setEnabled(false);
         txtNome.setEnabled(false);
         txtContato.setEnabled(false);
         txtCargo.setEnabled(false);
         txtUrl.setEnabled(false);
-        txtEmail.setEnabled(false);
+        txtEmail.setEnabled(false); 
         jFormattedTextFone1.setEnabled(false);
         jFormattedTextFone2.setEnabled(false);
         jFormattedTextCelular.setEnabled(false);
         txtObs.setEnabled(false);
-        jComboBoxContrato.setEnabled(false);
         
         txtRua.setEnabled(false);
         txtNumero.setEnabled(false);
@@ -93,23 +90,23 @@ public class FormCiente extends javax.swing.JFrame {
 //As linhas abaixo preenchem os combobox cidade e estado
 
         EstadoDAO estdao = new EstadoDAO();
+        jComboBoxEstado.removeAllItems();
+        jComboBoxEstado.addItem("Escolha");
         for (Estado e : estdao.readAllEstado()) {
             jComboBoxEstado.addItem(e);
         }
         
         CidadeDAO citdao = new CidadeDAO();
+        jComboBoxCidade.removeAllItems();
+        jComboBoxCidade.addItem("Escolha");
         for (Cidade c : citdao.readAllCidade()) {
             jComboBoxCidade.addItem(c);
         }
-        
-        ContratoDAO codao = new ContratoDAO();
-        for (Contrato ct : codao.readAllContrato()) {
-            jComboBoxContrato.addItem(ct);
-        }
     }
     
+//Monta a tabela
     public void readTable() {
-        DefaultTableModel modelo = (DefaultTableModel) jTableContrato.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) jTableCliente.getModel();
         modelo.setNumRows(0);
         ClienteDAO pdao = new ClienteDAO();
         
@@ -134,7 +131,6 @@ public class FormCiente extends javax.swing.JFrame {
                 p.getCep(),
                 p.getEstado(),
                 p.getCidade(),
-                p.getContrato(),
                 p.getGps(),
                 p.getFoto()
             });
@@ -142,7 +138,7 @@ public class FormCiente extends javax.swing.JFrame {
     }
     
     public void readTableforNome(String nome) {
-        DefaultTableModel modelo = (DefaultTableModel) jTableContrato.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) jTableCliente.getModel();
         modelo.setNumRows(0);
         ClienteDAO pdao = new ClienteDAO();
         
@@ -167,7 +163,6 @@ public class FormCiente extends javax.swing.JFrame {
                 p.getCep(),
                 p.getEstado(),
                 p.getCidade(),
-                p.getContrato(),
                 p.getGps(),
                 p.getFoto()
             });
@@ -226,8 +221,6 @@ public class FormCiente extends javax.swing.JFrame {
         jFormattedTextFone2 = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
         txtObs = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jComboBoxContrato = new javax.swing.JComboBox<>();
         jPanel5 = new javax.swing.JPanel();
         lblFoto = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
@@ -245,7 +238,7 @@ public class FormCiente extends javax.swing.JFrame {
         btnAtualizar = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableContrato = new javax.swing.JTable();
+        jTableCliente = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CADASTRO DE CLIENTE");
@@ -552,15 +545,6 @@ public class FormCiente extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("* Tipo de contrato");
-
-        jComboBoxContrato.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha" }));
-        jComboBoxContrato.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jComboBoxContratoKeyPressed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -617,12 +601,8 @@ public class FormCiente extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCnpjCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBoxContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 462, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txtCnpjCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -662,14 +642,10 @@ public class FormCiente extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtObs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jComboBoxContrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(txtObs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        lblFoto.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        lblFoto.setBorder(javax.swing.BorderFactory.createTitledBorder("FOTO"));
         lblFoto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblFotoMouseClicked(evt);
@@ -700,22 +676,22 @@ public class FormCiente extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
-                .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 14, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblFoto, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("CONSULTA POR NOME"));
@@ -775,11 +751,15 @@ public class FormCiente extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(64, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(64, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -798,7 +778,7 @@ public class FormCiente extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
@@ -900,33 +880,33 @@ public class FormCiente extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTableContrato.setModel(new javax.swing.table.DefaultTableModel(
+        jTableCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "CÓD", "CNPJ/CPF", "NOME", "CONTATO", "CARGO", "URL", "E-MAIL", "FONE1", "FONE2", "CELULAR", "OBS", "RUA", "NUMERO", "COMPLEMENTO", "BAIRRO", "REFERÊNCIA", "CEP", "ESTADO", "CIDADE", "CONTRATO", "GPS", "FOTO"
+                "CÓD", "CNPJ/CPF", "NOME", "CONTATO", "CARGO", "URL", "E-MAIL", "FONE1", "FONE2", "CELULAR", "OBS", "RUA", "NUMERO", "COMPLEMENTO", "BAIRRO", "REFERÊNCIA", "CEP", "ESTADO", "CIDADE", "GPS", "FOTO"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTableContrato.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTableCliente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableContratoMouseClicked(evt);
+                jTableClienteMouseClicked(evt);
             }
         });
-        jTableContrato.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTableCliente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTableContratoKeyReleased(evt);
+                jTableClienteKeyReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(jTableContrato);
+        jScrollPane1.setViewportView(jTableCliente);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -987,8 +967,7 @@ public class FormCiente extends javax.swing.JFrame {
         jFormattedTextFone2.setEnabled(true);
         jFormattedTextCelular.setEnabled(true);
         txtObs.setEnabled(true);
-        jComboBoxContrato.setEnabled(true);
-        
+
         txtRua.setEnabled(true);
         txtNumero.setEnabled(true);
         txtComplemento.setEnabled(true);
@@ -1020,8 +999,7 @@ public class FormCiente extends javax.swing.JFrame {
         jFormattedTextFone2.setText("");
         jFormattedTextCelular.setText("");
         txtObs.setText("");
-        jComboBoxContrato.setSelectedIndex(0);
-        
+
         txtRua.setText("");
         txtNumero.setText("");
         txtComplemento.setText("");
@@ -1060,8 +1038,7 @@ public class FormCiente extends javax.swing.JFrame {
         jFormattedTextFone2.setText("");
         jFormattedTextCelular.setText("");
         txtObs.setText("");
-        jComboBoxContrato.setSelectedIndex(0);
-        
+
         txtRua.setText("");
         txtNumero.setText("");
         txtComplemento.setText("");
@@ -1092,7 +1069,6 @@ public class FormCiente extends javax.swing.JFrame {
         readTable();
         jComboBoxEstado.setSelectedIndex(0);
         jComboBoxCidade.setSelectedIndex(0);
-        jComboBoxContrato.setSelectedIndex(0);
 
 // Prepara botões
         btnLimpar.setEnabled(true);
@@ -1110,8 +1086,7 @@ public class FormCiente extends javax.swing.JFrame {
                 || (txtRua.getText().isEmpty())
                 || (txtBairro.getText().isEmpty())
                 || (txtEmail.getText().isEmpty())
-                || (txtContato.getText().isEmpty())
-                || (jComboBoxContrato.getSelectedIndex() == 0)) {
+                || (txtContato.getText().isEmpty())) {
             JOptionPane.showMessageDialog(null, "Verifique os campos obrigatórios, TODOS DEVEM ESTAR PREENCHIDOS!! ", "AVISO", JOptionPane.WARNING_MESSAGE);
             txtCnpjCpf.requestFocus();
             return;
@@ -1149,11 +1124,7 @@ public class FormCiente extends javax.swing.JFrame {
             Estado estado = (Estado) jComboBoxEstado.getSelectedItem();
             estado.setIdestado(estado.getIdestado());
             cli.setEstado(estado);
-            
-            Contrato contrato = (Contrato) jComboBoxContrato.getSelectedItem();
-            contrato.setIdcontrato(contrato.getIdcontrato());
-            cli.setContrato(contrato);
-            
+
             dao.saveCliente(cli);
 
 //Reinicio o combobox cidade
@@ -1180,8 +1151,8 @@ public class FormCiente extends javax.swing.JFrame {
             jFormattedTextFone2.setEnabled(false);
             jFormattedTextCelular.setEnabled(false);
             txtObs.setEnabled(false);
-            jComboBoxContrato.setEnabled(false);
-            
+//            jComboBoxContrato.setEnabled(false);
+
             txtRua.setEnabled(false);
             txtNumero.setEnabled(false);
             txtComplemento.setEnabled(false);
@@ -1205,8 +1176,8 @@ public class FormCiente extends javax.swing.JFrame {
             jFormattedTextFone2.setText("");
             jFormattedTextCelular.setText("");
             txtObs.setText("");
-            jComboBoxContrato.setSelectedIndex(0);
-            
+//            jComboBoxContrato.setSelectedIndex(0);
+
             txtRua.setText("");
             txtNumero.setText("");
             txtComplemento.setText("");
@@ -1248,8 +1219,8 @@ public class FormCiente extends javax.swing.JFrame {
                 || (txtRua.getText().isEmpty())
                 || (txtBairro.getText().isEmpty())
                 || (txtEmail.getText().isEmpty())
-                || (txtContato.getText().isEmpty())
-                || (jComboBoxContrato.getSelectedIndex() == 0)) {
+                || (txtContato.getText().isEmpty())) {
+//                || (jComboBoxContrato.getSelectedIndex() == 0)) {
             JOptionPane.showMessageDialog(null, "Verifique os campos obrigatórios, TODOS DEVEM ESTAR PREENCHIDOS!! ", "AVISO", JOptionPane.WARNING_MESSAGE);
             txtCnpjCpf.requestFocus();
             return;
@@ -1288,10 +1259,6 @@ public class FormCiente extends javax.swing.JFrame {
             estado.setIdestado(estado.getIdestado());
             cli.setEstado(estado);
             
-            Contrato contrato = (Contrato) jComboBoxContrato.getSelectedItem();
-            contrato.setIdcontrato(contrato.getIdcontrato());
-            cli.setContrato(contrato);
-            
             cli.setIdcliente(Integer.parseInt(txtId.getText()));
             
             dao.updateCliente(cli);
@@ -1320,7 +1287,6 @@ public class FormCiente extends javax.swing.JFrame {
             jFormattedTextFone2.setEnabled(false);
             jFormattedTextCelular.setEnabled(false);
             txtObs.setEnabled(false);
-            jComboBoxContrato.setEnabled(false);
             
             txtRua.setEnabled(false);
             txtNumero.setEnabled(false);
@@ -1345,7 +1311,6 @@ public class FormCiente extends javax.swing.JFrame {
             jFormattedTextFone2.setText("");
             jFormattedTextCelular.setText("");
             txtObs.setText("");
-            jComboBoxContrato.setSelectedIndex(0);
             
             txtRua.setText("");
             txtNumero.setText("");
@@ -1385,7 +1350,7 @@ public class FormCiente extends javax.swing.JFrame {
             ClienteDAO dao = new ClienteDAO();
 
 //        adm.setIdadmin(Integer.parseInt(txtId.getText()));
-            cli.setIdcliente((int) jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 0));
+            cli.setIdcliente((int) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 0));
             
             dao.deleteCliente(cli);
 
@@ -1412,7 +1377,6 @@ public class FormCiente extends javax.swing.JFrame {
             jFormattedTextFone2.setText("");
             jFormattedTextCelular.setText("");
             txtObs.setText("");
-            jComboBoxContrato.setSelectedIndex(0);
             
             txtRua.setText("");
             txtNumero.setText("");
@@ -1443,8 +1407,8 @@ public class FormCiente extends javax.swing.JFrame {
             jFormattedTextFone2.setEnabled(false);
             jFormattedTextCelular.setEnabled(false);
             txtObs.setEnabled(false);
-            jComboBoxContrato.setEnabled(false);
-            
+//            jComboBoxContrato.setEnabled(false);
+
             txtRua.setEnabled(false);
             txtNumero.setEnabled(false);
             txtComplemento.setEnabled(false);
@@ -1463,7 +1427,7 @@ public class FormCiente extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
-    private void jTableContratoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableContratoMouseClicked
+    private void jTableClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableClienteMouseClicked
 
 //Reinicia combobox cidade
         CidadeDAO citdao = new CidadeDAO();
@@ -1473,12 +1437,12 @@ public class FormCiente extends javax.swing.JFrame {
             jComboBoxCidade.addItem(c);
         }
         
-        jComboBoxCidade.setSelectedIndex(0);
-        jComboBoxEstado.setSelectedIndex(0);
-        jComboBoxContrato.setSelectedIndex(0);
+//        jComboBoxCidade.setSelectedIndex(0);
+//        jComboBoxEstado.setSelectedIndex(0);
 
 // As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
-        if (jTableContrato.getSelectedRow() != -1) {
+        if (jTableCliente.getSelectedRow() != -1) {
+            txtId.setEnabled(true);
             txtCnpjCpf.setEnabled(true);
             txtNome.setEnabled(true);
             txtContato.setEnabled(true);
@@ -1489,7 +1453,6 @@ public class FormCiente extends javax.swing.JFrame {
             jFormattedTextFone2.setEnabled(true);
             jFormattedTextCelular.setEnabled(true);
             txtObs.setEnabled(true);
-            jComboBoxContrato.setEnabled(true);
             
             txtRua.setEnabled(true);
             txtNumero.setEnabled(true);
@@ -1506,43 +1469,41 @@ public class FormCiente extends javax.swing.JFrame {
             btnSalvar.setEnabled(false);
             btnLimpar.setEnabled(false);
             
-            txtId.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 0).toString());
-            txtCnpjCpf.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 1).toString());
-            txtNome.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 2).toString());
-            txtContato.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 3).toString());
-            txtCargo.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 4).toString());
-            txtUrl.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 5).toString());
-            txtEmail.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 6).toString());
-            jFormattedTextFone1.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 7).toString());
-            jFormattedTextFone2.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 8).toString());
-            jFormattedTextCelular.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 9).toString());
-            txtObs.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 10).toString());
-            txtRua.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 11).toString());
-            txtNumero.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 12).toString());
-            txtComplemento.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 13).toString());
-            txtBairro.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 14).toString());
-            txtReferencia.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 15).toString());
-            jFormattedTextCep.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 16).toString());
+            txtId.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 0).toString());
+            txtCnpjCpf.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 1).toString());
+            txtNome.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 2).toString());
+            txtContato.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 3).toString());
+            txtCargo.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 4).toString());
+            txtUrl.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 5).toString());
+            txtEmail.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 6).toString());
+            jFormattedTextFone1.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 7).toString());
+            jFormattedTextFone2.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 8).toString());
+            jFormattedTextCelular.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 9).toString());
+            txtObs.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 10).toString());
             
-            Estado est = (Estado) jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 17);
+            txtRua.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 11).toString());
+            txtNumero.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 12).toString());
+            txtComplemento.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 13).toString());
+            txtBairro.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 14).toString());
+            txtReferencia.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 15).toString());
+            jFormattedTextCep.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 16).toString());
+            
+            Estado est = (Estado) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 17);
             est.setIdestado(Integer.parseInt(String.valueOf(est.getIdestado())));
+            JOptionPane.showMessageDialog(null, est.getIdestado());
             jComboBoxEstado.setSelectedIndex(est.getIdestado());
             
-            Cidade cid = (Cidade) jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 18);
+            Cidade cid = (Cidade) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 18);
             cid.setIdcidade(Integer.parseInt(String.valueOf(cid.getIdcidade())));
             jComboBoxCidade.setSelectedIndex(cid.getIdcidade());
             
-            Contrato cont = (Contrato) jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 19);
-            cont.setIdcontrato(Integer.parseInt(String.valueOf(cont.getIdcontrato())));
-            jComboBoxContrato.setSelectedIndex(cont.getIdcontrato());
+            txtGps.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 19).toString());
             
-            txtGps.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 20).toString());
+            Cliente c = new Cliente();
+            ClienteDAO dao = new ClienteDAO();
             
-            Administradora a = new Administradora();
-            AdministradoraDAO dao = new AdministradoraDAO();
-            
-            a.setFoto((String) jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 21));
-            String nomeImagem = a.getFoto();
+            c.setFoto((String) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 20));
+            String nomeImagem = c.getFoto();
             
             if (!nomeImagem.isEmpty()) {
                 
@@ -1557,9 +1518,9 @@ public class FormCiente extends javax.swing.JFrame {
                 lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/adm1.jpg")));
             }
         }
-    }//GEN-LAST:event_jTableContratoMouseClicked
+    }//GEN-LAST:event_jTableClienteMouseClicked
 
-    private void jTableContratoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableContratoKeyReleased
+    private void jTableClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableClienteKeyReleased
 
 //Reinicia combobox cidade
         CidadeDAO citdao = new CidadeDAO();
@@ -1571,10 +1532,9 @@ public class FormCiente extends javax.swing.JFrame {
         
         jComboBoxCidade.setSelectedIndex(0);
         jComboBoxEstado.setSelectedIndex(0);
-        jComboBoxContrato.setSelectedIndex(0);
 
 // As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
-        if (jTableContrato.getSelectedRow() != -1) {
+        if (jTableCliente.getSelectedRow() != -1) {
             txtCnpjCpf.setEnabled(true);
             txtNome.setEnabled(true);
             txtContato.setEnabled(true);
@@ -1585,7 +1545,6 @@ public class FormCiente extends javax.swing.JFrame {
             jFormattedTextFone2.setEditable(true);
             jFormattedTextCelular.setEnabled(true);
             txtObs.setEnabled(true);
-            jComboBoxContrato.setEnabled(true);
             
             txtRua.setEnabled(true);
             txtNumero.setEnabled(true);
@@ -1602,49 +1561,45 @@ public class FormCiente extends javax.swing.JFrame {
             btnSalvar.setEnabled(false);
             btnLimpar.setEnabled(false);
             
-            txtId.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 0).toString());
-            txtCnpjCpf.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 1).toString());
-            txtNome.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 2).toString());
-            txtContato.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 3).toString());
-            txtCargo.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 4).toString());
-            txtUrl.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 5).toString());
-            txtEmail.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 6).toString());
-            jFormattedTextFone1.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 7).toString());
-            jFormattedTextFone2.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 8).toString());
-            jFormattedTextCelular.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 9).toString());
-            txtObs.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 10).toString());
-            txtRua.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 11).toString());
-            txtNumero.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 12).toString());
-            txtComplemento.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 13).toString());
-            txtBairro.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 14).toString());
-            txtReferencia.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 15).toString());
-            jFormattedTextCep.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 16).toString());
-            txtGps.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 20).toString());
+            txtId.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 0).toString());
+            txtCnpjCpf.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 1).toString());
+            txtNome.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 2).toString());
+            txtContato.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 3).toString());
+            txtCargo.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 4).toString());
+            txtUrl.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 5).toString());
+            txtEmail.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 6).toString());
+            jFormattedTextFone1.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 7).toString());
+            jFormattedTextFone2.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 8).toString());
+            jFormattedTextCelular.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 9).toString());
+            txtObs.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 10).toString());
+            txtRua.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 11).toString());
+            txtNumero.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 12).toString());
+            txtComplemento.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 13).toString());
+            txtBairro.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 14).toString());
+            txtReferencia.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 15).toString());
+            jFormattedTextCep.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 16).toString());
+            txtGps.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 19).toString());
             
-            Estado est = (Estado) jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 17);
+            Estado est = (Estado) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 17);
             
             est.setIdestado(Integer.parseInt(String.valueOf(est.getIdestado())));
             
             jComboBoxEstado.setSelectedIndex(est.getIdestado());
             
-            Cidade cid = (Cidade) jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 18);
+            Cidade cid = (Cidade) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 18);
             cid.setIdcidade(Integer.parseInt(String.valueOf(cid.getIdcidade())));
 //            cid.setIdcidade(cid.getIdcidade());
             jComboBoxCidade.setSelectedIndex(cid.getIdcidade());
             
-            Contrato cont = (Contrato) jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 19);
-            cont.setIdcontrato(Integer.parseInt(String.valueOf(cont.getIdcontrato())));
-            jComboBoxContrato.setSelectedIndex(cont.getIdcontrato());
+            Cliente cli = new Cliente();
+            ClienteDAO dao = new ClienteDAO();
             
-            Administradora a = new Administradora();
-            AdministradoraDAO dao = new AdministradoraDAO();
-            
-            a.setFoto((String) jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 21));
-            String nomeImagem = a.getFoto();
+            cli.setFoto((String) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 20));
+            String nomeImagem = cli.getFoto();
             
             if (!nomeImagem.isEmpty()) {
                 
-                ImageIcon icone = new ImageIcon("C:\\Users\\Master\\Pictures\\fotos\\" + nomeImagem);
+                ImageIcon icone = new ImageIcon("C:\\Users\\MILANO\\Pictures\\imagens-Projeto Os2\\" + nomeImagem);
                 lblFoto.setIcon(icone);
                 lblNomeFoto.setText(nomeImagem);
             } else {
@@ -1655,7 +1610,7 @@ public class FormCiente extends javax.swing.JFrame {
                 lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/adm1.jpg")));
             }
         }
-    }//GEN-LAST:event_jTableContratoKeyReleased
+    }//GEN-LAST:event_jTableClienteKeyReleased
 
     private void txtRuaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRuaKeyPressed
         // TODO add your handling code here:
@@ -1714,6 +1669,27 @@ public class FormCiente extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxCidadeKeyPressed
 
     private void jComboBoxEstadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxEstadoItemStateChanged
+//        if (jComboBoxEstado.getSelectedItem() != "Escolha") {
+//            
+//            Estado estado = (Estado) jComboBoxEstado.getSelectedItem();
+//            
+//            estado.setIdestado(estado.getIdestado());
+//            
+//            CidadeDAO citdao = new CidadeDAO();
+//            jComboBoxCidade.removeAllItems();
+//            jComboBoxCidade.addItem("Escolha");
+//            for (Cidade c : citdao.readComboBoxCidade(estado.getIdestado())) {
+//                jComboBoxCidade.addItem(c);
+//            }
+//        } else {
+//            jComboBoxCidade.removeAllItems();
+//            jComboBoxCidade.addItem("Escolha");
+//            CidadeDAO citdao = new CidadeDAO();
+//            for (Cidade c : citdao.readAllCidade()) {
+//                jComboBoxCidade.addItem(c);
+//            }
+//            jComboBoxCidade.setSelectedIndex(0);
+//        }
     }//GEN-LAST:event_jComboBoxEstadoItemStateChanged
 
     private void txtGpsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGpsActionPerformed
@@ -1737,9 +1713,7 @@ public class FormCiente extends javax.swing.JFrame {
 
     private void btnConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultaActionPerformed
         // TODO add your handling code here:
-
         readTableforNome(txtConsulta.getText());
-
     }//GEN-LAST:event_btnConsultaActionPerformed
 
     private void jComboBoxEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxEstadoActionPerformed
@@ -1757,12 +1731,12 @@ public class FormCiente extends javax.swing.JFrame {
     private void jComboBoxEstadoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxEstadoMousePressed
         // TODO add your handling code here:
         if (jComboBoxEstado.getSelectedItem() != "Escolha") {
-            
+
             Estado estado = (Estado) jComboBoxEstado.getSelectedItem();
-            
+
             estado.setIdestado(estado.getIdestado());
             jComboBoxEstado.setSelectedIndex(estado.getIdestado());
-            
+
             CidadeDAO citdao = new CidadeDAO();
             jComboBoxCidade.removeAllItems();
             jComboBoxCidade.addItem("Escolha");
@@ -1817,7 +1791,7 @@ public class FormCiente extends javax.swing.JFrame {
                 String nomeImagem = System.currentTimeMillis() + ".jpg";
                 lblNomeFoto.setText(nomeImagem);
                 
-                File novaImagem = new File("C:\\Users\\Master\\Pictures\\fotos\\" + nomeImagem);
+                File novaImagem = new File("C:\\Users\\MILANO\\Pictures\\imagens-Projeto Os2\\" + nomeImagem);
                 
                 BufferedImage bi = new BufferedImage(lblFoto.getWidth(), lblFoto.getHeight(), BufferedImage.TYPE_INT_RGB);
                 Graphics2D g2d = bi.createGraphics();
@@ -1903,16 +1877,9 @@ public class FormCiente extends javax.swing.JFrame {
     private void txtObsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtObsKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            jComboBoxContrato.requestFocus();
-        }
-    }//GEN-LAST:event_txtObsKeyPressed
-
-    private void jComboBoxContratoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBoxContratoKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txtRua.requestFocus();
         }
-    }//GEN-LAST:event_jComboBoxContratoKeyPressed
+    }//GEN-LAST:event_txtObsKeyPressed
 
     /**
      * @param args the command line arguments
@@ -1932,27 +1899,29 @@ public class FormCiente extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormCiente.class
+            java.util.logging.Logger.getLogger(FormCliente.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
             
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormCiente.class
+            java.util.logging.Logger.getLogger(FormCliente.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
             
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormCiente.class
+            java.util.logging.Logger.getLogger(FormCliente.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
             
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormCiente.class
+            java.util.logging.Logger.getLogger(FormCliente.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new FormCiente().setVisible(true);
+            new FormCliente().setVisible(true);
         });
     }
 
@@ -1965,7 +1934,6 @@ public class FormCiente extends javax.swing.JFrame {
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JComboBox<Object> jComboBoxCidade;
-    private javax.swing.JComboBox<Object> jComboBoxContrato;
     private javax.swing.JComboBox<Object> jComboBoxEstado;
     private javax.swing.JFormattedTextField jFormattedTextCelular;
     private javax.swing.JFormattedTextField jFormattedTextCep;
@@ -1974,7 +1942,6 @@ public class FormCiente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1984,7 +1951,7 @@ public class FormCiente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableContrato;
+    private javax.swing.JTable jTableCliente;
     private javax.swing.JLabel lblBairro;
     private javax.swing.JLabel lblCargo;
     private javax.swing.JLabel lblCelular;
