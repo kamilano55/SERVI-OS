@@ -6,13 +6,12 @@
 package view;
 
 import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.bean.Contrato;
-import model.bean.Estado;
 import model.dao.ContratoDAO;
-import model.dao.EstadoDAO;
 
 /**
  *
@@ -26,10 +25,10 @@ public class FormContrato extends javax.swing.JFrame {
     public FormContrato() {
         initComponents();
 
-//As linhas servem para ordenar a tabela jTableContrato
+        //As linhas servem para ordenar a tabela jTableContrato
         DefaultTableModel modelo = (DefaultTableModel) jTableContrato.getModel();
         jTableContrato.setRowSorter(new TableRowSorter(modelo));
-
+        
         readTable();
 
 //Habilita campos
@@ -37,7 +36,7 @@ public class FormContrato extends javax.swing.JFrame {
         jComboBoxTipo.setEnabled(false);
         jComboBoxTipo.setSelectedIndex(0);
         jEditorPaneContexto.setEnabled(false);
-        jFormattedTextValor.setEnabled(false);
+        txtValor.setEnabled(false);
         txtConsulta.setEnabled(true);
         txtConsulta.requestFocus();
 
@@ -50,40 +49,39 @@ public class FormContrato extends javax.swing.JFrame {
         btnLimpar.setEnabled(false);
         btnSalvar.setEnabled(false);
     }
+    
+    public void readTable() {
+        
+        DefaultTableModel modelo = (DefaultTableModel) jTableContrato.getModel();
+        modelo.setNumRows(0);
+        ContratoDAO dao = new ContratoDAO();
+        
+        for (Contrato c : dao.readAllContrato()) {
+            modelo.addRow(new Object[]{
+                c.getIdcontrato(),
+                c.getTipodesc(),
+                c.getContexto(),
+                c.getValor()
+            });
+        }
+    }
+    
+    public void readTableForTipo(String tipo) {
+        
+        DefaultTableModel modelo = (DefaultTableModel) jTableContrato.getModel();
+        modelo.setNumRows(0);
+        ContratoDAO dao = new ContratoDAO();
+        
+        for (Contrato c : dao.readForTypeContrato(tipo)) {
+            modelo.addRow(new Object[]{
+                c.getIdcontrato(),
+                c.getTipodesc(),
+                c.getContexto(),
+                c.getValor()
+            });
+        }
+    }
 
-    public void readTable(){
-        
-        DefaultTableModel modelo = (DefaultTableModel) jTableContrato.getModel();
-        modelo.setNumRows(0);
-        ContratoDAO dao = new ContratoDAO();
-        
-        for(Contrato c: dao.readAllContrato()){
-            modelo.addRow(new Object[]{
-                c.getIdcontrato(),
-                c.getTipodesc(),
-                c.getContexto(),
-                c.getValor()
-            });
-        }
-    }
-    
-    public void readTableForTipo(String tipo){
-        
-        DefaultTableModel modelo = (DefaultTableModel) jTableContrato.getModel();
-        modelo.setNumRows(0);
-        ContratoDAO dao = new ContratoDAO();
-        
-        for(Contrato c: dao.readForTypeContrato(tipo)){
-            modelo.addRow(new Object[]{
-                c.getIdcontrato(),
-                c.getTipodesc(),
-                c.getContexto(),
-                c.getValor()
-            });
-        }
-    }
-    
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -105,12 +103,12 @@ public class FormContrato extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jComboBoxTipo = new javax.swing.JComboBox<>();
         lblContexto = new javax.swing.JLabel();
-        jFormattedTextValor = new javax.swing.JFormattedTextField();
         lblValor = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jEditorPaneContexto = new javax.swing.JEditorPane();
         jLabel1 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
+        txtValor = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableContrato = new javax.swing.JTable();
@@ -120,10 +118,12 @@ public class FormContrato extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CADASTRO DE CONTRATOS TIPO PADRÃO");
+        setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
+        setPreferredSize(new java.awt.Dimension(1370, 700));
 
-        btnSair.setBackground(new java.awt.Color(0, 102, 204));
+        btnSair.setBackground(new java.awt.Color(0, 153, 153));
         btnSair.setForeground(new java.awt.Color(255, 255, 255));
-        btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icon-url-ee.png"))); // NOI18N
+        btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/bg-input-azul.png"))); // NOI18N
         btnSair.setText("SAIR");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,9 +131,9 @@ public class FormContrato extends javax.swing.JFrame {
             }
         });
 
-        btnAtualizar.setBackground(new java.awt.Color(102, 153, 255));
+        btnAtualizar.setBackground(new java.awt.Color(0, 153, 153));
         btnAtualizar.setForeground(new java.awt.Color(255, 255, 255));
-        btnAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/user_register.png"))); // NOI18N
+        btnAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/bg-input-azul.png"))); // NOI18N
         btnAtualizar.setText("ATUALIZAR");
         btnAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,9 +141,9 @@ public class FormContrato extends javax.swing.JFrame {
             }
         });
 
-        btnNovo.setBackground(new java.awt.Color(102, 153, 255));
+        btnNovo.setBackground(new java.awt.Color(0, 153, 153));
         btnNovo.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/folderopen.png"))); // NOI18N
+        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/bg-input-azul.png"))); // NOI18N
         btnNovo.setText("NOVO");
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -151,9 +151,9 @@ public class FormContrato extends javax.swing.JFrame {
             }
         });
 
-        btnLimpar.setBackground(new java.awt.Color(102, 153, 255));
+        btnLimpar.setBackground(new java.awt.Color(0, 153, 153));
         btnLimpar.setForeground(new java.awt.Color(255, 255, 255));
-        btnLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/limpar.png"))); // NOI18N
+        btnLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/bg-input-azul.png"))); // NOI18N
         btnLimpar.setText("LIMPAR");
         btnLimpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,9 +161,9 @@ public class FormContrato extends javax.swing.JFrame {
             }
         });
 
-        btnSalvar.setBackground(new java.awt.Color(102, 153, 255));
+        btnSalvar.setBackground(new java.awt.Color(0, 153, 153));
         btnSalvar.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/add.png"))); // NOI18N
+        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/bg-input-azul.png"))); // NOI18N
         btnSalvar.setText("SALVAR");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -171,9 +171,9 @@ public class FormContrato extends javax.swing.JFrame {
             }
         });
 
-        btnExcluir.setBackground(new java.awt.Color(102, 153, 255));
+        btnExcluir.setBackground(new java.awt.Color(0, 153, 153));
         btnExcluir.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icon-delete.png"))); // NOI18N
+        btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/bg-input-azul.png"))); // NOI18N
         btnExcluir.setText("EXCLUIR");
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -220,11 +220,9 @@ public class FormContrato extends javax.swing.JFrame {
 
         jLabel2.setText("* TIPO");
 
-        jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha", "Manutenção preventiva c/ contrato", "Manutenção preventiva s/ contrato", "Manutenção corretiva c/ contrato", "Manutenção corretiva s/ contrato", "Orçamento para reparo", "Orçamento para instalação nova", "Orçamento para amplição de instalação", "Call-Center = Atendimento sem contrato" }));
+        jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha", "Manutenção preventiva", "Manutenção preventiva c/ cobertura de peças", "Manutenção corretiva", "Manutenção corretiva c/ cobertura de peças", "CALL_CENTER - Atendimento a equipamento sem contrato", " " }));
 
         lblContexto.setText("* CONTEXTO");
-
-        jFormattedTextValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
 
         lblValor.setText("* VALOR");
 
@@ -247,23 +245,25 @@ public class FormContrato extends javax.swing.JFrame {
                     .addComponent(lblContexto))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(jFormattedTextValor, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(29, 29, 29)
-                        .addComponent(jComboBoxTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(29, 29, 29)
+                                .addComponent(jComboBoxTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 285, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 639, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGap(165, 165, 165))
         );
@@ -286,8 +286,8 @@ public class FormContrato extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jFormattedTextValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblValor)))
+                            .addComponent(lblValor)
+                            .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(lblContexto))
                 .addGap(115, 115, 115))
         );
@@ -353,9 +353,9 @@ public class FormContrato extends javax.swing.JFrame {
             }
         });
 
-        btnConsulta.setBackground(new java.awt.Color(102, 153, 255));
+        btnConsulta.setBackground(new java.awt.Color(0, 153, 153));
         btnConsulta.setForeground(new java.awt.Color(255, 255, 255));
-        btnConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Consulta.png"))); // NOI18N
+        btnConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/bg-input-azul.png"))); // NOI18N
         btnConsulta.setText("...");
         btnConsulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -422,7 +422,7 @@ public class FormContrato extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -442,13 +442,13 @@ public class FormContrato extends javax.swing.JFrame {
         txtCodigo.setEnabled(false);
         jComboBoxTipo.setEnabled(true);
         jEditorPaneContexto.setEnabled(true);
-        jFormattedTextValor.setEnabled(true);
+        txtValor.setEnabled(true);
 
 //Limpa campos
         txtCodigo.setText("");
         jComboBoxTipo.setSelectedIndex(0);
         jEditorPaneContexto.setText("");
-        jFormattedTextValor.setText("");
+        txtValor.setText("");
         txtConsulta.setText("");
 
 //Prepara botões
@@ -461,12 +461,12 @@ public class FormContrato extends javax.swing.JFrame {
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         // TODO add your handling code here:
-        
+
 // Limpa campos e posicion o cursor
         txtCodigo.setText("");
         jComboBoxTipo.setSelectedIndex(0);
         jEditorPaneContexto.setText("");
-        jFormattedTextValor.setText("");
+        txtValor.setText("");
         txtConsulta.requestFocus();
 
 //Reinicia botões
@@ -478,21 +478,21 @@ public class FormContrato extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
-        
-        if ((jComboBoxTipo.getSelectedItem().equals ("Escolha")) || (jEditorPaneContexto.getText().isEmpty()) || (jFormattedTextValor.getText().isEmpty())) {
+
+        if ((jComboBoxTipo.getSelectedItem().equals("Escolha")) || (jEditorPaneContexto.getText().isEmpty()) || (txtValor.getText().isEmpty())) {
             JOptionPane.showMessageDialog(null, "Verifique os campos obrigatórios, TODOS DEVEM ESTAR PREENCHIDOS!! ", "AVISO", JOptionPane.WARNING_MESSAGE);
             return;
         }
         int salvar = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja SALVAR este registro?", "ATENÇÃO", JOptionPane.YES_NO_OPTION);
         if (salvar == JOptionPane.YES_OPTION) {
-
+            
             Contrato c = new Contrato();
             ContratoDAO dao = new ContratoDAO();
-
+            
             c.setTipodesc(jComboBoxTipo.getSelectedItem().toString());
             c.setContexto(jEditorPaneContexto.getText());
-            c.setValor(Double.parseDouble(jFormattedTextValor.getText()));
-
+            c.setValor(Double.parseDouble(txtValor.getText()));
+            
             dao.saveContrato(c);
 
 //Reinicia tabela
@@ -502,7 +502,7 @@ public class FormContrato extends javax.swing.JFrame {
             txtCodigo.setText("");
             jComboBoxTipo.setSelectedIndex(0);
             jEditorPaneContexto.setText("");
-            jFormattedTextValor.setText("");
+            txtValor.setText("");
 
 //Reinicia campo de consulta            
             txtConsulta.setText("");
@@ -511,7 +511,7 @@ public class FormContrato extends javax.swing.JFrame {
             txtCodigo.setEnabled(false);
             jComboBoxTipo.setEnabled(false);
             jEditorPaneContexto.setEnabled(false);
-            jFormattedTextValor.setEnabled(false);
+            txtValor.setEnabled(false);
 
 //Atualiza botões
             btnLimpar.setEnabled(false);
@@ -525,46 +525,56 @@ public class FormContrato extends javax.swing.JFrame {
     private void jTableContratoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableContratoMouseClicked
         // TODO add your handling code here:
 // As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
-        Contrato contrato = new Contrato();
-
+//        Contrato contrato = new Contrato();
+        
         if (jTableContrato.getSelectedRow() != -1) {
             txtCodigo.setEnabled(true);
             jComboBoxTipo.setEnabled(true);
             jEditorPaneContexto.setEnabled(true);
-            jFormattedTextValor.setEnabled(true);
+            txtValor.setEnabled(true);
 
-            btnExcluir.setEnabled(true);
+            if (FormMenu.lblUsuario.getText().equals("ADMGERAL")) {
+                btnExcluir.setEnabled(true);
+            } else {
+                btnExcluir.setEnabled(false);
+            }
+//            btnExcluir.setEnabled(true);
             btnAtualizar.setEnabled(true);
             btnSalvar.setEnabled(false);
             btnLimpar.setEnabled(false);
-
+            
             txtCodigo.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 0).toString());
             jComboBoxTipo.setSelectedItem(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 1).toString());
             jEditorPaneContexto.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 2).toString());
-            jFormattedTextValor.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 3).toString());
+            txtValor.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 3).toString());
         }
     }//GEN-LAST:event_jTableContratoMouseClicked
 
     private void jTableContratoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableContratoKeyReleased
         // TODO add your handling code here:
         // As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
-        Contrato contrato = new Contrato();
-
+//        Contrato contrato = new Contrato();
+        
         if (jTableContrato.getSelectedRow() != -1) {
             txtCodigo.setEnabled(true);
             jComboBoxTipo.setEnabled(true);
             jEditorPaneContexto.setEnabled(true);
-            jFormattedTextValor.setEnabled(true);
-
-            btnExcluir.setEnabled(true);
+            txtValor.setEnabled(true);
+            
+            if (FormMenu.lblUsuario.getText().equals("ADMGERAL")) {
+                btnExcluir.setEnabled(true);
+            } else {
+                btnExcluir.setEnabled(false);
+            }
+//            btnExcluir.setEnabled(true);
             btnAtualizar.setEnabled(true);
             btnSalvar.setEnabled(false);
             btnLimpar.setEnabled(false);
-
+            
             txtCodigo.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 0).toString());
             jComboBoxTipo.setSelectedItem(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 1).toString());
             jEditorPaneContexto.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 2).toString());
-            jFormattedTextValor.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 3).toString());
+            txtValor.setText(jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 3).toString());
         }
     }//GEN-LAST:event_jTableContratoKeyReleased
 
@@ -574,13 +584,13 @@ public class FormContrato extends javax.swing.JFrame {
 
         int excluir = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja EXCLUIR este registro?", "ATENÇÃO", JOptionPane.YES_NO_OPTION);
         if (excluir == JOptionPane.YES_OPTION) {
-
+            
             Contrato cont = new Contrato();
             ContratoDAO dao = new ContratoDAO();
 
 //        adm.setIdadmin(Integer.parseInt(txtId.getText()));
             cont.setIdcontrato((int) jTableContrato.getValueAt(jTableContrato.getSelectedRow(), 0));
-
+            
             dao.deleteContrato(cont);
 
 //Atualiza a tabela
@@ -590,7 +600,7 @@ public class FormContrato extends javax.swing.JFrame {
             txtCodigo.setText("");
             jComboBoxTipo.setSelectedIndex(0);
             jEditorPaneContexto.setText("");
-            jFormattedTextValor.setText("");
+            txtValor.setText("");
 
 //Reinicia campo de consulta            
             txtConsulta.setText("");
@@ -600,7 +610,7 @@ public class FormContrato extends javax.swing.JFrame {
             txtCodigo.setEnabled(false);
             jComboBoxTipo.setEnabled(false);
             jEditorPaneContexto.setEnabled(false);
-            jFormattedTextValor.setEnabled(false);
+            txtValor.setEnabled(false);
 
 //Atualiza botões
             btnLimpar.setEnabled(false);
@@ -612,22 +622,22 @@ public class FormContrato extends javax.swing.JFrame {
 
     private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
         // TODO add your handling code here:
-        if ((jComboBoxTipo.getSelectedItem().equals ("Escolha")) || (jEditorPaneContexto.getText().isEmpty()) || (jFormattedTextValor.getText().isEmpty())) {
+        if ((jComboBoxTipo.getSelectedItem().equals("Escolha")) || (jEditorPaneContexto.getText().isEmpty()) || (txtValor.getText().isEmpty())) {
             JOptionPane.showMessageDialog(null, "Verifique os campos obrigatórios, TODOS DEVEM ESTAR PREENCHIDOS!! ", "AVISO", JOptionPane.WARNING_MESSAGE);
             return;
         }
         int salvar = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja ALTERAR este registro?", "ATENÇÃO", JOptionPane.YES_NO_OPTION);
         if (salvar == JOptionPane.YES_OPTION) {
-
+            
             Contrato c = new Contrato();
             ContratoDAO dao = new ContratoDAO();
-
+            
             c.setTipodesc(jComboBoxTipo.getSelectedItem().toString());
             c.setContexto(jEditorPaneContexto.getText());
-            c.setValor(Double.parseDouble(jFormattedTextValor.getText()));
+            c.setValor(Double.parseDouble(txtValor.getText()));
             
             c.setIdcontrato(Integer.parseInt(txtCodigo.getText()));
-
+            
             dao.updateContrato(c);
 
 //Reinicia tabela
@@ -637,7 +647,7 @@ public class FormContrato extends javax.swing.JFrame {
             txtCodigo.setText("");
             jComboBoxTipo.setSelectedIndex(0);
             jEditorPaneContexto.setText("");
-            jFormattedTextValor.setText("");
+            txtValor.setText("");
 
 //Reinicia campo de consulta            
             txtConsulta.setText("");
@@ -646,7 +656,7 @@ public class FormContrato extends javax.swing.JFrame {
             txtCodigo.setEnabled(false);
             jComboBoxTipo.setEnabled(false);
             jEditorPaneContexto.setEnabled(false);
-            jFormattedTextValor.setEnabled(false);
+            txtValor.setEnabled(false);
 
 //Atualiza botões
             btnLimpar.setEnabled(false);
@@ -726,7 +736,6 @@ public class FormContrato extends javax.swing.JFrame {
     private javax.swing.JButton btnSalvar;
     private javax.swing.JComboBox<String> jComboBoxTipo;
     private javax.swing.JEditorPane jEditorPaneContexto;
-    private javax.swing.JFormattedTextField jFormattedTextValor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
@@ -741,5 +750,6 @@ public class FormContrato extends javax.swing.JFrame {
     private javax.swing.JLabel lblValor;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtConsulta;
+    private javax.swing.JTextField txtValor;
     // End of variables declaration//GEN-END:variables
 }

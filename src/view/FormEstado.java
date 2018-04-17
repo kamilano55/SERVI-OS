@@ -6,6 +6,7 @@
 package view;
 
 import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -108,6 +109,8 @@ public class FormEstado extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CADASTRO DE ESTADOS");
+        setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
+        setPreferredSize(new java.awt.Dimension(1370, 700));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("DADOS DOS ESTADOS"));
 
@@ -164,7 +167,7 @@ public class FormEstado extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtUf, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 199, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -188,7 +191,7 @@ public class FormEstado extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnLimpar.setBackground(new java.awt.Color(102, 153, 255));
+        btnLimpar.setBackground(new java.awt.Color(0, 153, 153));
         btnLimpar.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpar.setText("LIMPAR");
         btnLimpar.setEnabled(false);
@@ -198,7 +201,7 @@ public class FormEstado extends javax.swing.JFrame {
             }
         });
 
-        btnNovo.setBackground(new java.awt.Color(102, 153, 255));
+        btnNovo.setBackground(new java.awt.Color(0, 153, 153));
         btnNovo.setForeground(new java.awt.Color(255, 255, 255));
         btnNovo.setText("NOVO");
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -207,7 +210,7 @@ public class FormEstado extends javax.swing.JFrame {
             }
         });
 
-        btnSalvar.setBackground(new java.awt.Color(102, 153, 255));
+        btnSalvar.setBackground(new java.awt.Color(0, 153, 153));
         btnSalvar.setForeground(new java.awt.Color(255, 255, 255));
         btnSalvar.setText("SALVAR");
         btnSalvar.setEnabled(false);
@@ -217,7 +220,7 @@ public class FormEstado extends javax.swing.JFrame {
             }
         });
 
-        btnExcluir.setBackground(new java.awt.Color(102, 153, 255));
+        btnExcluir.setBackground(new java.awt.Color(0, 153, 153));
         btnExcluir.setForeground(new java.awt.Color(255, 255, 255));
         btnExcluir.setText("EXCLUIR");
         btnExcluir.setEnabled(false);
@@ -227,7 +230,7 @@ public class FormEstado extends javax.swing.JFrame {
             }
         });
 
-        btnAtualizar.setBackground(new java.awt.Color(102, 153, 255));
+        btnAtualizar.setBackground(new java.awt.Color(0, 153, 153));
         btnAtualizar.setForeground(new java.awt.Color(255, 255, 255));
         btnAtualizar.setText("ATUALIZAR");
         btnAtualizar.setEnabled(false);
@@ -311,7 +314,7 @@ public class FormEstado extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnSair.setBackground(new java.awt.Color(0, 102, 204));
+        btnSair.setBackground(new java.awt.Color(0, 153, 153));
         btnSair.setForeground(new java.awt.Color(255, 255, 255));
         btnSair.setText("SAIR");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
@@ -345,9 +348,9 @@ public class FormEstado extends javax.swing.JFrame {
             }
         });
 
-        btnConsulta.setBackground(new java.awt.Color(102, 153, 255));
+        btnConsulta.setBackground(new java.awt.Color(0, 153, 153));
         btnConsulta.setForeground(new java.awt.Color(255, 255, 255));
-        btnConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Consulta.png"))); // NOI18N
+        btnConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/bg-input-azul.png"))); // NOI18N
         btnConsulta.setText("...");
         btnConsulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -389,22 +392,22 @@ public class FormEstado extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(89, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap(112, Short.MAX_VALUE))))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(35, 35, 35)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -415,17 +418,17 @@ public class FormEstado extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 41, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1051, 667));
+        setSize(new java.awt.Dimension(1386, 739));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -624,7 +627,12 @@ public class FormEstado extends javax.swing.JFrame {
             txtNome.setEnabled(true);
             txtUf.setEnabled(true);
 
-            btnExcluir.setEnabled(true);
+            if (FormMenu.lblUsuario.getText().equals("ADMGERAL")) {
+                btnExcluir.setEnabled(true);
+            } else {
+                btnExcluir.setEnabled(false);
+            }
+            
             btnAtualizar.setEnabled(true);
             btnSalvar.setEnabled(false);
             btnLimpar.setEnabled(false);

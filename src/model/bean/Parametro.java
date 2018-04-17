@@ -7,51 +7,22 @@ package model.bean;
 
 /**
  *
- * @author Master
+ * @author MILANO
  */
-public class Usuario {
-
-    private int iduser;
-    private String nome;
-    private String fone;
+public class Parametro {
+    
     private String login;
     private String senha;
     private String tipo;
+    private String data;
 
-    public Usuario() {
+    public Parametro() {
     }
 
-    public Usuario(int iduser, String nome, String fone, String login, String senha, String tipo) {
-        this.iduser = iduser;
-        this.nome = nome;
-        this.fone = fone;
-        this.login = login;
+    public Parametro(String senha, String tipo, String data) {
         this.senha = senha;
         this.tipo = tipo;
-    }
-
-    public int getIduser() {
-        return iduser;
-    }
-
-    public void setIduser(int iduser) {
-        this.iduser = iduser;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getFone() {
-        return fone;
-    }
-
-    public void setFone(String fone) {
-        this.fone = fone;
+        this.data = data;
     }
 
     public String getLogin() {
@@ -61,6 +32,8 @@ public class Usuario {
     public void setLogin(String login) {
         this.login = login;
     }
+    
+    
 
     public String getSenha() {
         return senha;
@@ -77,5 +50,18 @@ public class Usuario {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return getSenha(); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

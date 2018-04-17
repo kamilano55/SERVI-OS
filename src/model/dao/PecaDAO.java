@@ -183,4 +183,45 @@ public class PecaDAO {
         
         return pecas;
     }
+    
+    public List<Peca> comboboxPecaForOsId(int id) {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        List<Peca> pecas = new ArrayList<>();
+        
+        try {
+            stmt = con.prepareStatement("SELECT p.idpeca, p.qtd, p.descricao, p.unidade, p.preco, os.idos"
+                    + " FROM peca as p"
+                    + " inner join os ON p.os_idos = os.idos WHERE os.idos = ?");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                
+                Peca peca = new Peca();
+                
+                peca.setIdpeca(rs.getInt("idpeca"));
+                peca.setQtd(rs.getDouble("qtd"));
+                peca.setDescricao(rs.getString("descricao"));
+                peca.setUnidade(rs.getString("unidade"));
+                peca.setPreco(rs.getDouble("preco"));
+                
+                Os os1 = new Os();
+                os1.setIdos(rs.getInt("idos"));
+                
+                peca.setOs(os1);
+                
+                pecas.add(peca);
+                
+            }
+        } catch (SQLException ex) {
+            System.err.println("Erro: comboboxPecaForOsId" + ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        
+        return pecas;
+    }
 }

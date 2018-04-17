@@ -40,10 +40,10 @@ public class OsDAO {
             stmt = con.prepareStatement(sql);
 
             stmt.setString(1, os.getNome_cliente());
-
             stmt.setString(2, os.getNome_equip());
             stmt.setString(3, os.getDefeito());
             stmt.setString(4, os.getObs());
+            
             stmt.setInt(5, os.getTiposerv().getId_tserv());
             stmt.setInt(6, os.getCliente().getIdcliente());
             stmt.setInt(7, os.getEquipamento().getIdequip());
@@ -64,7 +64,6 @@ public class OsDAO {
     public boolean saveOsAtendida(Os os) {
 
         String sql = "UPDATE os SET tecnico = ?, dt_inicio = ?, hr_inic = ?, servico = ?, uso_peca = ?, equip_retirado = ?, aberta_fech = ?, dt_fim = ?, hr_fim = ? WHERE idos = ?";
-
         PreparedStatement stmt = null;
 
         try {
@@ -74,20 +73,20 @@ public class OsDAO {
             stmt.setString(2, os.getDt_inicio());
             stmt.setString(3, os.getHr_inic());
             stmt.setString(4, os.getServico());
-            stmt.setBoolean(5, os.getUso_peca());
-            stmt.setBoolean(6, os.getEquip_retirado());
-            stmt.setBoolean(7, os.getAberta_fech());
+            stmt.setString(5, os.getUso_peca());
+            stmt.setString(6, os.getEquip_retirado());
+            stmt.setString(7, os.getAberta_fech());
             stmt.setString(8, os.getDt_fim());
             stmt.setString(9, os.getHr_fim());
 
             stmt.setInt(10, os.getIdos());
 
             stmt.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Salvo com sucesso!! ");
+            JOptionPane.showMessageDialog(null, "Amazenado com sucesso!!!! ");
             return true;
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao salvar!! ");
+            JOptionPane.showMessageDialog(null, "Erro ao armazenar!!!! ");
             return false;
         } finally {
             ConnectionFactory.closeConnection(con, stmt);
@@ -125,6 +124,39 @@ public class OsDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
+    
+//     public boolean updateOsAtendida(Os os) {
+//
+//        String sql = "UPDATE os SET tecnico = ?, dt_inicio = ?, hr_inic = ?, servico = ?, uso_peca = ?, equip_retirado = ?, aberta_fech = ?, dt_fim = ?, hr_fim = ? WHERE idos = ?";
+//        PreparedStatement stmt = null;
+//
+//        try {
+//            stmt = con.prepareStatement(sql);
+//
+//            stmt.setString(1, os.getTecnico());
+//            stmt.setString(2, os.getDt_inicio());
+//            stmt.setString(3, os.getHr_inic());
+//            stmt.setString(4, os.getServico());
+//            stmt.setString(5, os.getUso_peca());
+//            stmt.setString(6, os.getEquip_retirado());
+//            stmt.setString(7, os.getAberta_fech());
+//            stmt.setString(8, os.getDt_fim());
+//            stmt.setString(9, os.getHr_fim());
+//
+//            stmt.setInt(10, os.getIdos());
+//
+//            stmt.executeUpdate();
+//            JOptionPane.showMessageDialog(null, "Atualizado com sucesso!! ");
+//            return true;
+//
+//        } catch (SQLException ex) {
+//            JOptionPane.showMessageDialog(null, "Erro ao atualizar!! ");
+//            return false;
+//        } finally {
+//            ConnectionFactory.closeConnection(con, stmt);
+//        }
+//
+//    }
 
     public boolean delete(Os os) {
 
@@ -149,6 +181,7 @@ public class OsDAO {
         }
     }
 
+    //em uso
     public List<Os> readTableOsAbertura() {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -199,7 +232,7 @@ public class OsDAO {
                 os.setDt_inicio(rs.getString("dt_inicio"));
                 os.setDt_fim(rs.getString("dt_fim"));
                 os.setServico(rs.getString("servico"));
-                os.setAberta_fech(rs.getBoolean("aberta_fech"));
+                os.setAberta_fech(rs.getString("aberta_fech"));
 
                 oss.add(os);
             }
@@ -212,6 +245,7 @@ public class OsDAO {
         return oss;
     }
 
+    //em uso
     public List<Os> readConsultaTableOsAbertura(String nome) {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -269,6 +303,7 @@ public class OsDAO {
         return oss;
     }
 
+    //em uso
     public List<Os> readConsultaTableOsAberturaForId(int id) {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -320,7 +355,7 @@ public class OsDAO {
                 os.setDt_inicio(rs.getString("dt_inicio"));
                 os.setDt_fim(rs.getString("dt_fim"));
                 os.setServico(rs.getString("servico"));
-                os.setAberta_fech(rs.getBoolean("aberta_fech"));
+                os.setAberta_fech(rs.getString("aberta_fech"));
 
                 oss.add(os);
             }
@@ -387,7 +422,7 @@ public class OsDAO {
         return oss;
     }
 
-    public boolean checkOsAtendidaExiste(int id) {
+    public boolean checkOsAbertaExiste(int id) {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -458,7 +493,9 @@ public class OsDAO {
         List<Os> oss = new ArrayList<>();
 
         try {
-            stmt = con.prepareStatement("SELECT os.idos as Cod, os.nome_equip as Equip, os.defeito as Defeito, os.servico as Serviço, os.tecnico as Téc, cliente.nome as Cliente, cliente.fone1 as Fone1Cli FROM os inner join cliente on os.cliente_idcliente = cliente.idcliente WHERE nome LIKE ?");
+            stmt = con.prepareStatement("SELECT os.idos as Cod, os.nome_equip as Equip, os.defeito as Defeito, os.servico as Serviço, os.tecnico as Téc, "
+                    + "cliente.nome as Cliente, cliente.fone1 as Fone1Cli FROM os inner join cliente on os.cliente_idcliente = cliente.idcliente "
+                    + "WHERE nome LIKE ?");
             stmt.setString(1, "%" + nome + "%");
             rs = stmt.executeQuery();
 

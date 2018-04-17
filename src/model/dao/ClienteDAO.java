@@ -442,6 +442,7 @@ public class ClienteDAO {
 
     }
 
+    //em uso
     public List<Cliente> readAllTableClienteForOs(String nome) {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -501,6 +502,7 @@ public class ClienteDAO {
 
     }
 
+    //em uso
     public List<Cliente> readTableClienteForOs() {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -559,6 +561,7 @@ public class ClienteDAO {
 
     }
 
+    //em uso
     public List<Cliente> readComboboxClienteForOs() {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;

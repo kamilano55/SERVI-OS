@@ -7,14 +7,13 @@ package view;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import model.bean.Cidade;
 import model.bean.Cliente;
-import model.bean.Equipamento;
 import model.bean.Estado;
 import model.dao.CidadeDAO;
 import model.dao.ClienteDAO;
-import model.dao.EquipamentoDAO;
 import model.dao.EstadoDAO;
 
 /**
@@ -90,6 +89,7 @@ public class FormClienteParaOs extends javax.swing.JDialog {
         jFormattedTextCelular = new javax.swing.JFormattedTextField();
         lblEmail = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnCancelar = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
@@ -98,6 +98,8 @@ public class FormClienteParaOs extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("CADASTRO DE NOVOS CLIENTES PARA 'OS'");
+        setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
+        setResizable(false);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("DADOS DA LOCALIZAÇÃO DO EQUIPAMENTO"));
 
@@ -119,7 +121,7 @@ public class FormClienteParaOs extends javax.swing.JDialog {
             }
         });
 
-        lblRua.setText("Rua");
+        lblRua.setText("*Rua");
 
         txtRua.setToolTipText("INFORME A RUA PARA LOCALIZAÇÃO DO EQUIPAMENTO.");
         txtRua.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -144,11 +146,11 @@ public class FormClienteParaOs extends javax.swing.JDialog {
             }
         });
 
-        lblBairro.setText("Bairro");
+        lblBairro.setText("*Bairro");
 
-        lblEstado.setText("Estado");
+        lblEstado.setText("*Estado");
 
-        lblCidade.setText("Cidade");
+        lblCidade.setText("*Cidade");
 
         jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha" }));
         jComboBoxEstado.setToolTipText("CLICK PARA ESCOLHER UM ESTADO");
@@ -235,11 +237,11 @@ public class FormClienteParaOs extends javax.swing.JDialog {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("DADOS DO CLIENTE"));
 
-        lblCelular.setText("Celular");
+        lblCelular.setText("*Celular");
 
-        lblContato.setText("Contato");
+        lblContato.setText("*Contato");
 
-        lblNome.setText("Nome");
+        lblNome.setText("*Nome");
 
         txtNome.setToolTipText("DIGITE O NOME DO CLIENTE");
         txtNome.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -290,7 +292,7 @@ public class FormClienteParaOs extends javax.swing.JDialog {
             }
         });
 
-        lblEmail.setText("E-mail");
+        lblEmail.setText("*E-mail");
 
         txtEmail.setToolTipText("INFORME O EMAIL(SÍNDICO, PROPRIETÁRIO OU DA EMPRESA)");
         txtEmail.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -298,6 +300,11 @@ public class FormClienteParaOs extends javax.swing.JDialog {
                 txtEmailKeyPressed(evt);
             }
         });
+
+        jLabel3.setBackground(new java.awt.Color(102, 153, 255));
+        jLabel3.setForeground(new java.awt.Color(102, 153, 255));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_building_error_35763 (1).png"))); // NOI18N
+        jLabel3.setText("(*) - Campo de preenchimento OBRIGATÓRIO");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -320,15 +327,20 @@ public class FormClienteParaOs extends javax.swing.JDialog {
                     .addComponent(jFormattedTextCelular)
                     .addComponent(jFormattedTextTelefone)
                     .addComponent(txtEmail))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNome)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblNome)
+                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblContato)
@@ -373,7 +385,7 @@ public class FormClienteParaOs extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        btnCancelar.setBackground(new java.awt.Color(0, 51, 255));
+        btnCancelar.setBackground(new java.awt.Color(0, 153, 153));
         btnCancelar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnCancelar.setForeground(new java.awt.Color(255, 255, 255));
         btnCancelar.setText("CANCELAR");
@@ -383,7 +395,7 @@ public class FormClienteParaOs extends javax.swing.JDialog {
             }
         });
 
-        btnSalvar.setBackground(new java.awt.Color(0, 51, 255));
+        btnSalvar.setBackground(new java.awt.Color(0, 153, 153));
         btnSalvar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnSalvar.setForeground(new java.awt.Color(255, 255, 255));
         btnSalvar.setText("SALVAR");
@@ -677,6 +689,7 @@ public class FormClienteParaOs extends javax.swing.JDialog {
     private javax.swing.JComboBox<Object> jComboBoxEstado;
     private javax.swing.JFormattedTextField jFormattedTextCelular;
     private javax.swing.JFormattedTextField jFormattedTextTelefone;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

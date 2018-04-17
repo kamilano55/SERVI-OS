@@ -6,26 +6,95 @@
 package view;
 
 import connection.ConnectionFactory;
+import java.awt.Color;
 import java.sql.*;
-
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
+import model.bean.Parametro;
+import model.bean.Usuario;
+import model.dao.ParametroDAO;
 import model.dao.UsuarioDAO;
+
 /**
  *
  * @author Pretinho
  */
 public class FormLogin extends javax.swing.JFrame {
-Connection conexao = null;
-PreparedStatement stmt = null;
-ResultSet rs = null;
+
+    Connection conexao = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+
     /**
      * Creates new form TelaLogin
      */
     public FormLogin() {
         initComponents();
-        
+
+    }
+
+    //Método logar
+    public void logar(String login, String senha) {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            stmt = (PreparedStatement) con.prepareStatement("SELECT * FROM usuario WHERE login = ? and senha = ?");
+
+            stmt.setString(1, login);
+            stmt.setString(2, senha);
+
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+
+                Parametro parametro = new Parametro();
+                ParametroDAO pdao = new ParametroDAO();
+                
+                parametro.setLogin(txtUsuario.getText());
+                parametro.setSenha(new String(txtSenha.getPassword()));
+                parametro.setTipo(rs.getString(6));
+                
+                //depois que verificou login e senha comprimenta o usuario pelo nome
+                JOptionPane.showMessageDialog(null, "SEJA BEM VINDO(A)  !!!" +" -  " + rs.getString(2));
+
+                if (pdao.saveDadosLoginInParametro(parametro)) {
+                    new FormMenu().setVisible(true);
+                    if (rs.getString(6).equals("Administrador") || (rs.getString(2).equals("ADMGERAL"))) {
+                        FormMenu.jMenuRelatorio.setEnabled(true);
+                        FormMenu.jMenuCadCid.setEnabled(true);
+                        FormMenu.jMenuCadEstado.setEnabled(true);
+                        FormMenu.jMenuCadUsuario.setEnabled(true);
+                        FormMenu.jMenuCadContrato.setEnabled(true);
+                        FormMenu.jMenuCadTipoServ.setEnabled(true);
+                        FormMenu.lblUsuario.setText(rs.getString(2));
+                        FormMenu.lblUsuario.setForeground(Color.RED);
+                        this.dispose();
+                    } else {
+                        FormMenu.jMenuRelatorio.setEnabled(false);
+                        FormMenu.jMenuCadCid.setEnabled(false);
+                        FormMenu.jMenuCadEstado.setEnabled(false);
+                        FormMenu.jMenuCadUsuario.setEnabled(false);
+                        FormMenu.jMenuCadContrato.setEnabled(false);
+                        FormMenu.jMenuCadTipoServ.setEnabled(false);
+                        FormMenu.lblUsuario.setText(rs.getString(2));
+                        this.dispose();
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Ops' Usuário e ou Senha inválido(s)!!");
+                txtUsuario.setText("");
+                txtSenha.setText("");
+                txtUsuario.requestFocus();
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Falha no acesso ao DB Usuário" + ex.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+
     }
 
     /**
@@ -51,7 +120,7 @@ ResultSet rs = null;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tela de Login");
-        setIconImage(new ImageIcon(getClass().getResource("/imagens/Login.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -114,7 +183,7 @@ ResultSet rs = null;
         getContentPane().add(lbliconBanco);
         lbliconBanco.setBounds(290, 170, 40, 40);
 
-        lblFundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Login.png"))); // NOI18N
+        lblFundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png"))); // NOI18N
         getContentPane().add(lblFundo);
         lblFundo.setBounds(0, 0, 260, 230);
 
@@ -123,69 +192,49 @@ ResultSet rs = null;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAcessarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcessarActionPerformed
-        
-        UsuarioDAO dao = new UsuarioDAO();
-        
-        /*A linha abaixo usa o get Password e por isso a classe wepper (new String)e o argumento seguinte entre parêntese
-        */
-        if (dao.checkLogin(txtUsuario.getText(), new String (txtSenha.getPassword()))){
-            new Menu().setVisible(true);
-            this.dispose();
-        }else{
-            JOptionPane.showMessageDialog(null, "Senha ou usuário inválidos");
-        }
-            
+
+        logar(txtUsuario.getText(), new String(txtSenha.getPassword()));
     }//GEN-LAST:event_btnAcessarActionPerformed
-    
+
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         System.exit(0);
-        
+
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void txtUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyPressed
-        
-        if(evt.getExtendedKeyCode() == KeyEvent.VK_ENTER){
-           txtSenha.requestFocus();
-       }
+
+        if (evt.getExtendedKeyCode() == KeyEvent.VK_ENTER) {
+            txtSenha.requestFocus();
+        }
     }//GEN-LAST:event_txtUsuarioKeyPressed
 
     private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
-        
-        if(evt.getExtendedKeyCode() == KeyEvent.VK_ENTER){
-           btnAcessar.requestFocus();
-       }
+
+        if (evt.getExtendedKeyCode() == KeyEvent.VK_ENTER) {
+            btnAcessar.requestFocus();
+        }
     }//GEN-LAST:event_txtSenhaKeyPressed
 
     private void btnAcessarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAcessarKeyPressed
-        
-        if(evt.getExtendedKeyCode() == KeyEvent.VK_ENTER){
-//            
-            UsuarioDAO dao = new UsuarioDAO();
-            
-        if (dao.checkLogin(txtUsuario.getText(), new String (txtSenha.getPassword()))){
-            new Menu().setVisible(true);
-            this.dispose();
-        }else{
-            txtUsuario.setText("");
-            txtSenha.setText("");
-            JOptionPane.showMessageDialog(null, "Senha ou usuário inválidos");
+
+        if (evt.getExtendedKeyCode() == KeyEvent.VK_ENTER) {
+            logar(txtUsuario.getText(), new String(txtSenha.getPassword()));
         }
-       }
     }//GEN-LAST:event_btnAcessarKeyPressed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         UsuarioDAO dao = new UsuarioDAO();
-        
-         if (!dao.checkConexao()){
-             lbliconBanco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/No-Conection.png")));
-             btnAcessar.setEnabled(false);
-             txtUsuario.setEnabled(false);
-             txtSenha.setEnabled(false);
-             JOptionPane.showMessageDialog(null, "Falha: Banco de dados ou tabela usuário não acessível");
-         }else{
-             lbliconBanco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/conection-ok.png")));
-         }
+
+        if (!dao.checkConexao()) {
+            lbliconBanco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/No-Conection.png")));
+            btnAcessar.setEnabled(false);
+            txtUsuario.setEnabled(false);
+            txtSenha.setEnabled(false);
+            JOptionPane.showMessageDialog(null, "Falha: Banco de dados ou tabela usuário não acessível");
+        } else {
+            lbliconBanco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/conection-ok.png")));
+        }
     }//GEN-LAST:event_formWindowOpened
 
     /**
@@ -215,7 +264,7 @@ ResultSet rs = null;
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-        
+
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>

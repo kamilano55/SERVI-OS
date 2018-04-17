@@ -104,6 +104,7 @@ public class TiposervDAO {
         }
     }
 
+    //em uso
     public List<Tiposerv> readAllTiposerv() {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;

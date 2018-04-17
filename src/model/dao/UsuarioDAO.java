@@ -147,9 +147,9 @@ public class UsuarioDAO {
         }
         
         return usuarios;
-        
-        
     }
+    
+    
     public List<Usuario> readForUsuario(String nome){
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -186,6 +186,42 @@ public class UsuarioDAO {
         return usuarios;
     }
     
+//    public List<Usuario> readUsuarioForLogin(String login, String senha){
+//        Connection con = ConnectionFactory.getConnection();
+//        PreparedStatement stmt = null;
+//        ResultSet rs = null;
+//        
+//        List<Usuario> usuarios = new ArrayList<>();
+//        
+//        try {
+//            stmt = con.prepareStatement("SELECT * FROM usuario WHERE login = ? and senha = ?");
+////            stmt.setString(1, "%"+nome+"%");
+//            rs = stmt.executeQuery();
+//            
+//            
+//            while (rs.next()){
+//                
+//                Usuario usuario = new Usuario();
+//                
+//                usuario.setIduser(rs.getInt("iduser"));
+//                usuario.setNome(rs.getString("nome"));
+//                usuario.setFone(rs.getString("fone"));
+//                usuario.setLogin(rs.getString("login"));
+//                usuario.setSenha(rs.getString("senha"));
+//                usuario.setTipo(rs.getString("tipo"));
+//                
+//                usuarios.add(usuario);
+//                
+//                
+//            }
+//        } catch (SQLException ex) {
+//            JOptionPane.showMessageDialog(null, "Erro : readUsuarioForLogin" +ex);
+//        }finally{
+//            ConnectionFactory.closeConnection(con, stmt, rs);
+//        }
+//        return usuarios;
+//    }
+    
     
     public boolean checkLogin(String login, String senha){
         
@@ -218,6 +254,8 @@ public class UsuarioDAO {
         return check;
         
     }
+    
+    
     public boolean checkConexao(){
         
 //Testa a conexão        
@@ -242,5 +280,8 @@ public class UsuarioDAO {
             }
         }
         return check;
-    }   
+    }
+    
+    
+    
 }

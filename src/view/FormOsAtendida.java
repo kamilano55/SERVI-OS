@@ -11,10 +11,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.bean.Equipamento;
 import model.bean.Os;
+import model.bean.Peca;
+import model.dao.EquipamentoDAO;
 import model.dao.OsDAO;
+import model.dao.PecaDAO;
 
 /**
  *
@@ -22,9 +29,9 @@ import model.dao.OsDAO;
  */
 public class FormOsAtendida extends javax.swing.JFrame {
 
-    private boolean statusPeca;
-    private boolean statusRetirado;
-    private boolean statusFechada;
+    private String statusPeca;
+    private String statusRetirado;
+    private String statusFechada;
 
     /**
      * Creates new form FormAtendeOs
@@ -33,7 +40,33 @@ public class FormOsAtendida extends javax.swing.JFrame {
         initComponents();
         desabilitaCampos();
         desabilitaBottons();
+        txtCodigo.setEnabled(true);
+        txtCodigo.requestFocus();
 
+    }
+
+    private void limparTabela() {
+        DefaultTableModel mod = (DefaultTableModel) jTableOsAberta.getModel();
+        mod.removeRow(0);
+    }
+
+    public void testaData() {
+        Date data = new Date();
+        SimpleDateFormat formatar = new SimpleDateFormat("dd/MM/yy");
+        String dataFormatada = formatar.format(data);
+//        System.out.println(dataFormatada);
+        jFormattedTextDtIni.setText(dataFormatada);
+        jFormattedTextDtFim.setText(dataFormatada);
+    }
+
+    public void comboboxPecasForIdOsAtendida(int id) {
+        PecaDAO pdao = new PecaDAO();
+        jComboBoxPecas.removeAllItems();
+        jComboBoxPecas.addItem("Lista das Peças usadas");
+        JOptionPane.showMessageDialog(null, id);
+        for (Peca pe : pdao.comboboxPecaForOsId(id)) {
+            jComboBoxPecas.addItem(pe);
+        }
     }
 
     public void readTableOsAbertaForId(int id) {
@@ -75,7 +108,6 @@ public class FormOsAtendida extends javax.swing.JFrame {
                 jFormattedTextDtFim.setText(rs.getString("dt_fim"));
                 jFormattedTextHrFim.setText(rs.getString("hr_fim"));
                 jTextArea1.setText(rs.getString("servico"));
-            } else {
             }
 
         } catch (SQLException ex) {
@@ -87,7 +119,7 @@ public class FormOsAtendida extends javax.swing.JFrame {
     }
 
     public void desabilitaCampos() {
-        txtCodigo.setEnabled(false);
+        txtCodigo.setEnabled(true);
         jComboBoxTecnico.setEnabled(false);
         jFormattedTextDtIni.setEnabled(false);
         jFormattedTextHrIni.setEnabled(false);
@@ -122,12 +154,24 @@ public class FormOsAtendida extends javax.swing.JFrame {
         jTextArea1.setEnabled(true);
     }
 
-    public void habilitaBottonsNovo() {
+    public void habilitaBottonsAtendidaExiste() {
+        btnLimpar.setEnabled(false);
+        btnSalvar.setEnabled(false);
+        btnAtualizar.setEnabled(true);
+        if (FormMenu.lblUsuario.getText().equals("ADMGERAL")) {
+            btnExcluir.setEnabled(true);
+        } else {
+            btnExcluir.setEnabled(false);
+        }
+        
+    }
+
+    public void habilitaBottonsAtendidaNaoExiste() {
         btnLimpar.setEnabled(true);
         btnSalvar.setEnabled(true);
         btnAtualizar.setEnabled(false);
         btnExcluir.setEnabled(false);
-        txtCodigo.requestFocus();
+        jComboBoxTecnico.setSelectedIndex(0);
     }
 
     public void limpaCampos() {
@@ -136,32 +180,32 @@ public class FormOsAtendida extends javax.swing.JFrame {
         jFormattedTextDtIni.setText("");
         jFormattedTextHrIni.setText("");
         jComboBoxPecas.setSelectedIndex(0);
-        jRadioEquipRet.setEnabled(false);
-        jRadioStatusOs.setEnabled(false);
-        jRadioUsoPeca.setEnabled(false);
+        jRadioEquipRet.setSelected(false);
+        jRadioStatusOs.setSelected(false);
+        jRadioUsoPeca.setSelected(false);
         jFormattedTextDtFim.setText("");
         jFormattedTextHrFim.setText("");
         jTextArea1.setText("");
-
+        txtCodigo.requestFocus();
     }
 
     private void testaStatusBotton() {
         if (jRadioUsoPeca.isSelected()) {
-            statusPeca = true;
+            statusPeca = "Sim";
         } else {
-            statusPeca = false;
+            statusPeca = "Não";
         }
 
         if (jRadioEquipRet.isSelected()) {
-            statusRetirado = true;
+            statusRetirado = "Sim";
         } else {
-            statusRetirado = false;
+            statusRetirado = "Não";
         }
 
         if (jRadioStatusOs.isSelected()) {
-            statusFechada = true;
+            statusFechada = "Fechada";
         } else {
-            statusFechada = false;
+            statusFechada = "Aberta";
         }
     }
 
@@ -174,9 +218,9 @@ public class FormOsAtendida extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         btnSalvar = new javax.swing.JButton();
-        btnNovo = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
         btnAtualizar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
@@ -204,11 +248,13 @@ public class FormOsAtendida extends javax.swing.JFrame {
         jTableOsAberta = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("REGISTRO DE ATENDIMENTO DE OS`S");
+        setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
 
-        btnSalvar.setBackground(new java.awt.Color(0, 51, 255));
+        btnSalvar.setBackground(new java.awt.Color(0, 153, 153));
         btnSalvar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnSalvar.setForeground(new java.awt.Color(255, 255, 255));
         btnSalvar.setText("SALVAR");
@@ -218,17 +264,7 @@ public class FormOsAtendida extends javax.swing.JFrame {
             }
         });
 
-        btnNovo.setBackground(new java.awt.Color(0, 51, 255));
-        btnNovo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnNovo.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovo.setText("NOVO");
-        btnNovo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNovoActionPerformed(evt);
-            }
-        });
-
-        btnLimpar.setBackground(new java.awt.Color(0, 51, 255));
+        btnLimpar.setBackground(new java.awt.Color(0, 153, 153));
         btnLimpar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnLimpar.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpar.setText("LIMPAR");
@@ -238,12 +274,17 @@ public class FormOsAtendida extends javax.swing.JFrame {
             }
         });
 
-        btnAtualizar.setBackground(new java.awt.Color(0, 51, 255));
+        btnAtualizar.setBackground(new java.awt.Color(0, 153, 153));
         btnAtualizar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnAtualizar.setForeground(new java.awt.Color(255, 255, 255));
         btnAtualizar.setText("ATUALIZAR");
+        btnAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtualizarActionPerformed(evt);
+            }
+        });
 
-        btnExcluir.setBackground(new java.awt.Color(0, 51, 255));
+        btnExcluir.setBackground(new java.awt.Color(0, 153, 153));
         btnExcluir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnExcluir.setForeground(new java.awt.Color(255, 255, 255));
         btnExcluir.setText("EXCLUIR");
@@ -258,7 +299,6 @@ public class FormOsAtendida extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(btnAtualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnLimpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -269,19 +309,17 @@ public class FormOsAtendida extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        btnSair.setBackground(new java.awt.Color(0, 51, 255));
+        btnSair.setBackground(new java.awt.Color(0, 153, 153));
         btnSair.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnSair.setForeground(new java.awt.Color(255, 255, 255));
         btnSair.setText("SAIR");
@@ -295,6 +333,7 @@ public class FormOsAtendida extends javax.swing.JFrame {
 
         lblHrInicio.setText("* Hr.Inicio");
 
+        buttonGroup1.add(jRadioEquipRet);
         jRadioEquipRet.setText("Equip.Retirado?");
         jRadioEquipRet.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -320,7 +359,13 @@ public class FormOsAtendida extends javax.swing.JFrame {
 
         lblPeca.setText("Peças");
 
+        buttonGroup1.add(jRadioStatusOs);
         jRadioStatusOs.setText("Os Fechada?");
+        jRadioStatusOs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioStatusOsActionPerformed(evt);
+            }
+        });
         jRadioStatusOs.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jRadioStatusOsKeyPressed(evt);
@@ -373,8 +418,15 @@ public class FormOsAtendida extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         jFormattedTextHrFim.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jFormattedTextHrFim.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jFormattedTextHrFimKeyPressed(evt);
+            }
+        });
 
-        jComboBoxTecnico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Carlos", "Alberto", "Milano" }));
+        jComboBoxPecas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lista zerada de peças!!!" }));
+
+        jComboBoxTecnico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha", "Carlos", "Alberto", "Milano" }));
         jComboBoxTecnico.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jComboBoxTecnicoKeyPressed(evt);
@@ -516,18 +568,22 @@ public class FormOsAtendida extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 11, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
 
         jLabel1.setText("Código Os:");
 
+        txtCodigo.setForeground(new java.awt.Color(255, 0, 51));
         txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCodigoKeyPressed(evt);
             }
         });
+
+        jLabel2.setBackground(new java.awt.Color(102, 153, 255));
+        jLabel2.setForeground(new java.awt.Color(102, 153, 255));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_building_error_35763 (1).png"))); // NOI18N
+        jLabel2.setText("(*) - Campo de preenchimento OBRIGATÓRIO");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -539,39 +595,48 @@ public class FormOsAtendida extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel2)
+                                        .addGap(69, 69, 69))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(191, 191, 191)))))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(122, 122, 122))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(33, 33, 33)
-                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(165, Short.MAX_VALUE))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
 
         pack();
@@ -583,6 +648,8 @@ public class FormOsAtendida extends javax.swing.JFrame {
         if ((jComboBoxTecnico.getSelectedItem() == null)
                 || (jFormattedTextDtIni == null)
                 || (jFormattedTextHrIni == null)
+                || (jFormattedTextDtFim == null)
+                || (jFormattedTextHrFim == null)
                 || (jTextArea1 == null)) {
             JOptionPane.showMessageDialog(null, "Verifique os campos obrigatórios, TODOS DEVEM ESTAR PREENCHIDOS!! ", "AVISO", JOptionPane.WARNING_MESSAGE);
             txtCodigo.requestFocus();
@@ -600,22 +667,19 @@ public class FormOsAtendida extends javax.swing.JFrame {
             os.setUso_peca(statusPeca);
             os.setEquip_retirado(statusRetirado);
             os.setAberta_fech(statusFechada);
-            os.setDt_fim(jFormattedTextDtIni.getText());
-            os.setHr_fim(jFormattedTextHrIni.getText());
+            os.setDt_fim(jFormattedTextDtFim.getText());
+            os.setHr_fim(jFormattedTextHrFim.getText());
+            
 
             os.setIdos(Integer.parseInt(txtCodigo.getText()));
 
             dao.saveOsAtendida(os);
+            
         }
-        desabilitaBottons();
+        desabilitaBottons(); 
         limpaCampos();
         desabilitaCampos();
     }//GEN-LAST:event_btnSalvarActionPerformed
-
-    private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-        habilitaBottonsNovo();
-        txtCodigo.setEnabled(true);
-    }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         // TODO add your handling code here:
@@ -634,6 +698,9 @@ public class FormOsAtendida extends javax.swing.JFrame {
             FormOsPecas pecas = new FormOsPecas(this, rootPaneCheckingEnabled);
             pecas.importaId(os);
             pecas.setVisible(true);
+            
+            //Preenche o combobox com as peças lançadas para este atendimento e habilita o combobox
+            comboboxPecasForIdOsAtendida(Integer.parseInt(txtCodigo.getText()));
             jComboBoxPecas.setEnabled(true);
         } else {
             jComboBoxPecas.setEnabled(false);
@@ -644,37 +711,67 @@ public class FormOsAtendida extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (txtCodigo.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Digite o código de uma Os para iniciar o processo", "AVISO", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Digite o código de uma Os valida para iniciar o processo", "AVISO", JOptionPane.WARNING_MESSAGE);
                 return;
-            }
-            OsDAO dao = new OsDAO();
-            if (dao.checkOsAtendidaExiste(Integer.parseInt(txtCodigo.getText()))) {
-                habilitaBottonsNovo();
-                habilitaCampos();
-
-                preencheFormeOsAtend(Integer.parseInt(txtCodigo.getText()));
-
-                readTableOsAbertaForId(Integer.parseInt(txtCodigo.getText()));
-
-                if (jRadioUsoPeca.isSelected()) {
-                    jComboBoxPecas.setEnabled(true);
-                } else {
-                    jComboBoxPecas.setEnabled(false);
-                }
-
-                if (jRadioEquipRet.isSelected()) {
-                    jRadioStatusOs.setEnabled(false);
-                } 
-                jComboBoxTecnico.requestFocus();
             } else {
-                limpaCampos();
-                desabilitaCampos();
-                desabilitaBottons();
-                JOptionPane.showMessageDialog(null, "OS NÃO LOCALIZADA");
-                txtCodigo.requestFocus();
+                OsDAO dao = new OsDAO();
+                if (dao.checkOsAbertaExiste(Integer.parseInt(txtCodigo.getText()))) {
+                    readTableOsAbertaForId(Integer.parseInt(txtCodigo.getText()));
+                    preencheFormeOsAtend(Integer.parseInt(txtCodigo.getText()));
+                    if ((jComboBoxTecnico.getSelectedItem() == null)) {
+                        desabilitaBottons();
+                        desabilitaCampos();
+                        int op = JOptionPane.showConfirmDialog(null, "Não existe atendimento para esta OS. DESEJA CRIAR AGORA??", "Atenção", JOptionPane.YES_NO_OPTION);
+
+                        if (op == JOptionPane.YES_OPTION) {
+                            habilitaBottonsAtendidaNaoExiste();
+                            habilitaCampos();
+
+                            testaData();
+
+                            jComboBoxTecnico.requestFocus(true);
+
+                        } else {
+                            if (op == JOptionPane.NO_OPTION) {
+                                txtCodigo.setText("");
+                                txtCodigo.requestFocus();
+                            }
+                        }
+
+                    } else {
+                        habilitaBottonsAtendidaExiste();
+                        habilitaCampos();
+                        jComboBoxTecnico.requestFocus();
+//                        txtCodigo.requestFocus();
+
+                        if (jRadioUsoPeca.isSelected()) {
+                            jRadioUsoPeca.setEnabled(false);
+                            jComboBoxPecas.setEnabled(true);
+                            comboboxPecasForIdOsAtendida(Integer.parseInt(txtCodigo.getText()));
+
+                        } else {
+                            jComboBoxPecas.removeAllItems();
+                            jComboBoxPecas.addItem("Não existem peças para o atendimento");
+                            jComboBoxPecas.setEnabled(false);
+                            jRadioUsoPeca.setEnabled(true);
+                        }
+
+                        if (jRadioEquipRet.isSelected()) {
+                            jRadioStatusOs.setEnabled(false);
+                        }
+
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "NÃO EXISTE OS PARA ESTE CÓDIGO DE ACESSO !!!!");
+
+                    limpaCampos();
+                    desabilitaCampos();
+                    desabilitaBottons();
+                    txtCodigo.requestFocus();
+                    limparTabela();
+                }
             }
         }
-
     }//GEN-LAST:event_txtCodigoKeyPressed
 
     private void jComboBoxTecnicoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBoxTecnicoKeyPressed
@@ -727,7 +824,24 @@ public class FormOsAtendida extends javax.swing.JFrame {
     private void jFormattedTextDtFimKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextDtFimKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            jFormattedTextHrFim.requestFocus();
+            // PEGA DATA INICIO 00/00/00
+            String dia_inicio = jFormattedTextDtIni.getText().substring(0, 2);
+            String mes_inicio = jFormattedTextDtIni.getText().substring(3, 5);
+            String ano_inicio = jFormattedTextDtIni.getText().substring(6, 8);
+            int data_inicio = (Integer.parseInt(dia_inicio) + Integer.parseInt(mes_inicio) + Integer.parseInt(ano_inicio));
+
+            // PEGA DATA FIM 00/00/00
+            String dia_fim = jFormattedTextDtFim.getText().substring(0, 2);
+            String mes_fim = jFormattedTextDtFim.getText().substring(3, 5);
+            String ano_fim = jFormattedTextDtFim.getText().substring(6, 8);
+            int data_fim = (Integer.parseInt(dia_fim) + Integer.parseInt(mes_fim) + Integer.parseInt(ano_fim));
+            if (data_fim < data_inicio) {
+                JOptionPane.showMessageDialog(this, "DATA FIM NÃO PODE SER MENOR QUE DATA INICIO. FAVOR VERIFICAR", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+                return;
+            } else {
+                jFormattedTextHrFim.requestFocus();
+            }
+
         }
 
     }//GEN-LAST:event_jFormattedTextDtFimKeyPressed
@@ -739,13 +853,56 @@ public class FormOsAtendida extends javax.swing.JFrame {
 
     private void jRadioEquipRetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioEquipRetMouseClicked
         // TODO add your handling code here:
-        if (jRadioEquipRet.isSelected()) {
-            jRadioStatusOs.setSelected(false);
-            jRadioStatusOs.setEnabled(false);
-        }else{
-            jRadioStatusOs.setEnabled(true);
-        }
+        jRadioStatusOs.setEnabled(true);
     }//GEN-LAST:event_jRadioEquipRetMouseClicked
+
+    private void jRadioStatusOsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioStatusOsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioStatusOsActionPerformed
+
+    private void jFormattedTextHrFimKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextHrFimKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jTextArea1.requestFocus();
+        }
+    }//GEN-LAST:event_jFormattedTextHrFimKeyPressed
+
+    private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
+        // TODO add your handling code here:
+        if ((jComboBoxTecnico.getSelectedItem() == null)
+                || (jFormattedTextDtIni == null)
+                || (jFormattedTextHrIni == null)
+                || (jFormattedTextDtFim == null)
+                || (jFormattedTextHrFim == null)
+                || (jTextArea1 == null)) {
+            JOptionPane.showMessageDialog(null, "Verifique os campos obrigatórios, TODOS DEVEM ESTAR PREENCHIDOS!! ", "AVISO", JOptionPane.WARNING_MESSAGE);
+            txtCodigo.requestFocus();
+
+            return;
+        } else {
+            Os os = new Os();
+            OsDAO dao = new OsDAO();
+            testaStatusBotton();
+
+            os.setTecnico(jComboBoxTecnico.getSelectedItem().toString());
+            os.setDt_inicio(jFormattedTextDtIni.getText());
+            os.setHr_inic(jFormattedTextHrIni.getText());
+            os.setServico(jTextArea1.getText());
+            os.setUso_peca(statusPeca);
+            os.setEquip_retirado(statusRetirado);
+            os.setAberta_fech(statusFechada);
+            os.setDt_fim(jFormattedTextDtFim.getText());
+            os.setHr_fim(jFormattedTextHrFim.getText());
+
+            os.setIdos(Integer.parseInt(txtCodigo.getText()));
+
+            dao.saveOsAtendida(os);
+        }
+        desabilitaBottons();
+        limpaCampos();
+        desabilitaCampos();
+//        limparTabela();
+    }//GEN-LAST:event_btnAtualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -761,16 +918,24 @@ public class FormOsAtendida extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormOsAtendida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormOsAtendida.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormOsAtendida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormOsAtendida.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormOsAtendida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormOsAtendida.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormOsAtendida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormOsAtendida.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -787,9 +952,9 @@ public class FormOsAtendida extends javax.swing.JFrame {
     private javax.swing.JButton btnAtualizar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnLimpar;
-    private javax.swing.JButton btnNovo;
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<Object> jComboBoxPecas;
     private javax.swing.JComboBox<String> jComboBoxTecnico;
     private javax.swing.JFormattedTextField jFormattedTextDtFim;
@@ -797,6 +962,7 @@ public class FormOsAtendida extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField jFormattedTextHrFim;
     private javax.swing.JFormattedTextField jFormattedTextHrIni;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;

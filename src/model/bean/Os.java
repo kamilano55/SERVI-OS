@@ -20,10 +20,10 @@ public class Os {
     private String dt_inicio;
     private String hr_inic;
     private String servico;
-    private Boolean uso_peca;
-    private Boolean equip_retirado;
+    private String uso_peca;
+    private String equip_retirado;
     private String obs;
-    private Boolean aberta_fech;
+    private String aberta_fech;
     private String dt_fim;
     private String hr_fim;
     private Tiposerv tiposerv;
@@ -33,7 +33,7 @@ public class Os {
     public Os() {
     }
 
-    public Os(int idos, String data, String nome_cliente, String nome_equip, String defeito, String tecnico, String dt_inicio, String hr_inic, String servico, Boolean uso_peca, Boolean equip_retirado, String obs, Boolean aberta_fech, String dt_fim, String hr_fim, Tiposerv tiposerv, Cliente cliente, Equipamento equipamento) {
+    public Os(int idos, String data, String nome_cliente, String nome_equip, String defeito, String tecnico, String dt_inicio, String hr_inic, String servico, String uso_peca, String equip_retirado, String obs, String aberta_fech, String dt_fim, String hr_fim, Tiposerv tiposerv, Cliente cliente, Equipamento equipamento) {
         this.idos = idos;
         this.data = data;
         this.nome_cliente = nome_cliente;
@@ -53,6 +53,8 @@ public class Os {
         this.cliente = cliente;
         this.equipamento = equipamento;
     }
+
+   
 
     public int getIdos() {
         return idos;
@@ -126,19 +128,19 @@ public class Os {
         this.servico = servico;
     }
 
-    public Boolean getUso_peca() {
+    public String getUso_peca() {
         return uso_peca;
     }
 
-    public void setUso_peca(Boolean uso_peca) {
+    public void setUso_peca(String uso_peca) {
         this.uso_peca = uso_peca;
     }
 
-    public Boolean getEquip_retirado() {
+    public String getEquip_retirado() {
         return equip_retirado;
     }
 
-    public void setEquip_retirado(Boolean equip_retirado) {
+    public void setEquip_retirado(String equip_retirado) {
         this.equip_retirado = equip_retirado;
     }
 
@@ -150,11 +152,11 @@ public class Os {
         this.obs = obs;
     }
 
-    public Boolean getAberta_fech() {
+    public String getAberta_fech() {
         return aberta_fech;
     }
 
-    public void setAberta_fech(Boolean aberta_fech) {
+    public void setAberta_fech(String aberta_fech) {
         this.aberta_fech = aberta_fech;
     }
 

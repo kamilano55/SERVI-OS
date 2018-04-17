@@ -19,7 +19,8 @@ public class Equipamento {
     private String dt_instal;
     private String histor_inicial;
     private String gap_manut;
-    private String dt_ultmanut;
+    private String dt_ultimanut;
+    private int atendimentos;
     private String dt_inic_contrato;
     private String foto;
     private Cliente cliente;
@@ -28,7 +29,7 @@ public class Equipamento {
     public Equipamento() {
     }
 
-    public Equipamento(int idequip, String nome, String fabricante, String modelo, String dt_fabric, String dt_instal, String histor_inicial, String gap_manut, String dt_ultmanut, String dt_inic_contrato, String foto, Cliente cliente, Contrato contrato) {
+    public Equipamento(int idequip, String nome, String fabricante, String modelo, String dt_fabric, String dt_instal, String histor_inicial, String gap_manut, String dt_ultimanut, int atendimentos, String dt_inic_contrato, String foto, Cliente cliente, Contrato contrato) {
         this.idequip = idequip;
         this.nome = nome;
         this.fabricante = fabricante;
@@ -37,14 +38,15 @@ public class Equipamento {
         this.dt_instal = dt_instal;
         this.histor_inicial = histor_inicial;
         this.gap_manut = gap_manut;
-        this.dt_ultmanut = dt_ultmanut;
+        this.dt_ultimanut = dt_ultimanut;
+        this.atendimentos = atendimentos;
         this.dt_inic_contrato = dt_inic_contrato;
         this.foto = foto;
         this.cliente = cliente;
         this.contrato = contrato;
     }
 
-    
+
 
     public int getIdequip() {
         return idequip;
@@ -110,14 +112,25 @@ public class Equipamento {
         this.gap_manut = gap_manut;
     }
 
-    public String getDt_ultmanut() {
-        return dt_ultmanut;
+    public String getDt_ultimanut() {
+        return dt_ultimanut;
     }
 
-    public void setDt_ultmanut(String dt_ultmanut) {
-        this.dt_ultmanut = dt_ultmanut;
+    public void setDt_ultimanut(String dt_ultimanut) {
+        this.dt_ultimanut = dt_ultimanut;
     }
 
+
+    public int getAtendimentos() {
+        return atendimentos;
+    }
+
+    public void setAtendimentos(int atendimentos) {
+        this.atendimentos = atendimentos;
+    }
+
+   
+    
     public String getDt_inic_contrato() {
         return dt_inic_contrato;
     }
@@ -125,8 +138,6 @@ public class Equipamento {
     public void setDt_inic_contrato(String dt_inic_contrato) {
         this.dt_inic_contrato = dt_inic_contrato;
     }
-    
-    
 
     public String getFoto() {
         return foto;

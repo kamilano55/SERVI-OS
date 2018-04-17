@@ -5,10 +5,19 @@
  */
 package view;
 
+import connection.ConnectionFactory;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import model.bean.Parametro;
 import model.bean.Usuario;
 import model.dao.UsuarioDAO;
 
@@ -47,6 +56,33 @@ public class FormUsuario extends javax.swing.JFrame {
         btnExcluir.setEnabled(false);
         btnAtualizar.setEnabled(false);
         btnSalvar.setEnabled(false);
+    }
+
+    private List<Parametro> lerUsuarioDoParametro() {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        List<Parametro> parametrousu = new ArrayList<>();
+
+        try {
+            stmt = con.prepareStatement("SELECT tipo FROM parametro ORDER BY idparametro DESC limit 1");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+
+                Parametro pa = new Parametro();
+                pa.setTipo(rs.getString("tipo"));
+
+                parametrousu.add(pa);
+
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro - lerUsuarioDoParametro" + ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return parametrousu;
     }
 
     public void readTable() {
@@ -122,16 +158,12 @@ public class FormUsuario extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CADASTRO DE USUÁRIOS");
+        setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("DADOS DO USUÁRIO"));
 
         jLabel2.setText("* FONE");
 
-        txtLogin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtLoginActionPerformed(evt);
-            }
-        });
         txtLogin.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtLoginKeyPressed(evt);
@@ -140,11 +172,6 @@ public class FormUsuario extends javax.swing.JFrame {
 
         jLabel4.setText("* SENHA");
 
-        txtNome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNomeActionPerformed(evt);
-            }
-        });
         txtNome.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtNomeKeyPressed(evt);
@@ -234,6 +261,9 @@ public class FormUsuario extends javax.swing.JFrame {
                     .addComponent(jComboBoXTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
+        btnNovo.setBackground(new java.awt.Color(0, 153, 153));
+        btnNovo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnNovo.setForeground(new java.awt.Color(255, 255, 255));
         btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_users_85022.png"))); // NOI18N
         btnNovo.setText("NOVO");
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -242,6 +272,9 @@ public class FormUsuario extends javax.swing.JFrame {
             }
         });
 
+        btnSalvar.setBackground(new java.awt.Color(0, 153, 153));
+        btnSalvar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnSalvar.setForeground(new java.awt.Color(255, 255, 255));
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_users-add_85019.png"))); // NOI18N
         btnSalvar.setText("SALVAR");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -250,6 +283,9 @@ public class FormUsuario extends javax.swing.JFrame {
             }
         });
 
+        btnExcluir.setBackground(new java.awt.Color(0, 153, 153));
+        btnExcluir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnExcluir.setForeground(new java.awt.Color(255, 255, 255));
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_users-delete2_44073.png"))); // NOI18N
         btnExcluir.setText("EXCLUIR");
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
@@ -258,6 +294,9 @@ public class FormUsuario extends javax.swing.JFrame {
             }
         });
 
+        btnAtualizar.setBackground(new java.awt.Color(0, 153, 153));
+        btnAtualizar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnAtualizar.setForeground(new java.awt.Color(255, 255, 255));
         btnAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_users-edit_60154.png"))); // NOI18N
         btnAtualizar.setText("ATUALIZAR");
         btnAtualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -266,6 +305,9 @@ public class FormUsuario extends javax.swing.JFrame {
             }
         });
 
+        btnLimpar.setBackground(new java.awt.Color(0, 153, 153));
+        btnLimpar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnLimpar.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/limpar.png"))); // NOI18N
         btnLimpar.setText("LIMPAR");
         btnLimpar.addActionListener(new java.awt.event.ActionListener() {
@@ -359,10 +401,13 @@ public class FormUsuario extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
+        btnSair.setBackground(new java.awt.Color(0, 153, 153));
+        btnSair.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnSair.setForeground(new java.awt.Color(255, 255, 255));
         btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_users-go_44076.png"))); // NOI18N
         btnSair.setText("SAIR");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
@@ -373,7 +418,10 @@ public class FormUsuario extends javax.swing.JFrame {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("CONSULTA POR NOME"));
 
-        btnConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Consulta.png"))); // NOI18N
+        btnConsulta.setBackground(new java.awt.Color(0, 153, 153));
+        btnConsulta.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnConsulta.setForeground(new java.awt.Color(255, 255, 255));
+        btnConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/bg-input-azul.png"))); // NOI18N
         btnConsulta.setText("...");
         btnConsulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -421,11 +469,11 @@ public class FormUsuario extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(101, Short.MAX_VALUE)
+                        .addContainerGap(99, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(lblCodigo)
@@ -446,7 +494,7 @@ public class FormUsuario extends javax.swing.JFrame {
                                 .addGap(54, 54, 54)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(137, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -517,12 +565,12 @@ public class FormUsuario extends javax.swing.JFrame {
 
     private void jTableUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableUsuarioMouseClicked
         // TODO add your handling code here:
-// As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
+        // As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
         Usuario usuario = new Usuario();
 
         if (jTableUsuario.getSelectedRow() != -1) {
 
-//inicializa campos
+            //inicializa campos
             txtCodigo.setEnabled(true);
             txtNome.setEnabled(true);
             jFormattedTextFone.setEnabled(true);
@@ -530,13 +578,18 @@ public class FormUsuario extends javax.swing.JFrame {
             txtSenha.setEnabled(true);
             jComboBoXTipo.setEnabled(true);
 
-//inicializa botões
-            btnExcluir.setEnabled(true);
+            //inicializa botões
+            if (FormMenu.lblUsuario.getText().equals("ADMGERAL")) {
+                btnExcluir.setEnabled(true);
+            } else {
+                btnExcluir.setEnabled(false);
+            }
+
             btnAtualizar.setEnabled(true);
             btnSalvar.setEnabled(false);
             btnLimpar.setEnabled(false);
 
-//pega dados da tabela e coloca nos campos
+            //pega dados da tabela e coloca nos campos
             txtCodigo.setText(jTableUsuario.getValueAt(jTableUsuario.getSelectedRow(), 0).toString());
             txtNome.setText(jTableUsuario.getValueAt(jTableUsuario.getSelectedRow(), 1).toString());
             jFormattedTextFone.setText(jTableUsuario.getValueAt(jTableUsuario.getSelectedRow(), 2).toString());
@@ -550,12 +603,12 @@ public class FormUsuario extends javax.swing.JFrame {
 
     private void jTableUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableUsuarioKeyReleased
         // TODO add your handling code here:
-// As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
+        // As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
         Usuario usuario = new Usuario();
 
         if (jTableUsuario.getSelectedRow() != -1) {
 
-//inicializa campos
+            //inicializa campos
             txtCodigo.setEnabled(true);
             txtNome.setEnabled(true);
             jFormattedTextFone.setEnabled(true);
@@ -563,13 +616,17 @@ public class FormUsuario extends javax.swing.JFrame {
             txtSenha.setEnabled(true);
             jComboBoXTipo.setEnabled(true);
 
-//inicializa botões
-            btnExcluir.setEnabled(true);
+            //inicializa botões
+            if (FormMenu.lblUsuario.getText().equals("ADMGERAL")) {
+                btnExcluir.setEnabled(true);
+            } else {
+                btnExcluir.setEnabled(false);
+            }
             btnAtualizar.setEnabled(true);
             btnSalvar.setEnabled(false);
             btnLimpar.setEnabled(false);
 
-//pega dados da tabela e coloca nos campos
+            //pega dados da tabela e coloca nos campos
             txtCodigo.setText(jTableUsuario.getValueAt(jTableUsuario.getSelectedRow(), 0).toString());
             txtNome.setText(jTableUsuario.getValueAt(jTableUsuario.getSelectedRow(), 1).toString());
             jFormattedTextFone.setText(jTableUsuario.getValueAt(jTableUsuario.getSelectedRow(), 2).toString());
@@ -579,14 +636,6 @@ public class FormUsuario extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jTableUsuarioKeyReleased
-
-    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNomeActionPerformed
-
-    private void txtLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtLoginActionPerformed
 
     private void txtNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyPressed
         // TODO add your handling code here:
@@ -604,7 +653,7 @@ public class FormUsuario extends javax.swing.JFrame {
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         // TODO add your handling code here:
-// Limpa campos e posicion o cursor
+        // Limpa campos e posicion o cursor
         txtCodigo.setText("");
         txtNome.setText("");
         jFormattedTextFone.setText("");
@@ -613,7 +662,7 @@ public class FormUsuario extends javax.swing.JFrame {
         jComboBoXTipo.setSelectedIndex(0);
         txtNome.requestFocus();
 
-//Reinicia botões
+        //Reinicia botões
         btnLimpar.setEnabled(true);
         btnSalvar.setEnabled(true);
         btnExcluir.setEnabled(false);
@@ -627,106 +676,146 @@ public class FormUsuario extends javax.swing.JFrame {
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // TODO add your handling code here:
-        //As linhas abaixo excluem um registro
-        int excluir = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir este registro?? ", "CONFIRMA", JOptionPane.YES_NO_OPTION);
-        if (excluir == JOptionPane.YES_OPTION) {
+        //verifica se a senha do usuario atual permite a operação de deletar registros
+        lerUsuarioDoParametro();
 
-            Usuario u = new Usuario();
-            UsuarioDAO dao = new UsuarioDAO();
-
-//            u.setIduser(Integer.parseInt(txtCodigo.getText()));
-            u.setIduser((int) jTableUsuario.getValueAt(jTableUsuario.getSelectedRow(), 0));
-
-            dao.deleteUsuario(u);
-
-//Atualiza a tabela
-            readTable();
-
-//Limpa campos
-            txtCodigo.setText("");
-            txtNome.setText("");
-            jFormattedTextFone.setText("");
-            txtLogin.setText("");
-            txtSenha.setText("");
-            jComboBoXTipo.setSelectedIndex(0);
-
-//Reinicia campo de consulta            
-            txtConsulta.setText("");
-            txtConsulta.requestFocus();
-
-//As linhas abaixo reiniciam os campos
-            txtCodigo.setEnabled(false);
-            txtNome.setEnabled(false);
-            jFormattedTextFone.setEnabled(false);
-            txtLogin.setEnabled(false);
-            txtSenha.setEnabled(false);
-            jComboBoXTipo.setEnabled(false);
-
-//As linhas abaixo reiniciam os botões
-            btnLimpar.setEnabled(false);
+        Parametro rets = new Parametro();
+        for (Parametro pr : lerUsuarioDoParametro()) {
+            rets.setTipo(pr.getTipo());
+        }
+        //as linhas abaixo testa a senha do usuário
+        if (!rets.getTipo().equals("ADMGERAL")) {
+            JOptionPane.showMessageDialog(null, "Você não está autorizado a realizar esta operação", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
             btnExcluir.setEnabled(false);
             btnAtualizar.setEnabled(false);
-            btnSalvar.setEnabled(false);
+        } else {
 
+            //As linhas abaixo confirmam o interesse do usuário excluem um registro escolhido 
+            int excluir = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir este registro?? ", "CONFIRMA", JOptionPane.YES_NO_OPTION);
+            if (excluir == JOptionPane.YES_OPTION) {
+
+                Usuario u = new Usuario();
+                UsuarioDAO dao = new UsuarioDAO();
+
+                u.setIduser((int) jTableUsuario.getValueAt(jTableUsuario.getSelectedRow(), 0));
+
+                dao.deleteUsuario(u);
+
+                //Atualiza a tabela
+                readTable();
+
+                //Limpa campos
+                txtCodigo.setText("");
+                txtNome.setText("");
+                jFormattedTextFone.setText("");
+                txtLogin.setText("");
+                txtSenha.setText("");
+                jComboBoXTipo.setSelectedIndex(0);
+
+                //Reinicia campo de consulta
+                txtConsulta.setText("");
+                txtConsulta.requestFocus();
+
+                //As linhas abaixo reiniciam os campos
+                txtCodigo.setEnabled(false);
+                txtNome.setEnabled(false);
+                jFormattedTextFone.setEnabled(false);
+                txtLogin.setEnabled(false);
+                txtSenha.setEnabled(false);
+                jComboBoXTipo.setEnabled(false);
+
+                //As linhas abaixo reiniciam os botões
+                btnLimpar.setEnabled(false);
+                if (FormMenu.lblUsuario.getText().equals("ADMGERAL")) {
+                    btnExcluir.setEnabled(true);
+                } else {
+                    btnExcluir.setEnabled(false);
+                }
+                btnAtualizar.setEnabled(false);
+                btnSalvar.setEnabled(false);
+
+            }
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
         // TODO add your handling code here:
-        if ((txtNome.getText().isEmpty())
-                || (jFormattedTextFone.getText().isEmpty())
-                || (txtLogin.getText().isEmpty())
-                || (txtSenha.getText().isEmpty())
-                || (jComboBoXTipo.getSelectedItem().equals("Escolha"))) {
-            JOptionPane.showMessageDialog(null, "Verifique os campos obrigatórios, TODOS DEVEM ESTAR PREENCHIDOS!! ", "AVISO", JOptionPane.WARNING_MESSAGE);
-            return;
+        //verifica se a senha do usuario atual permite a operação de deletar registros
+        lerUsuarioDoParametro();
+
+        Parametro rets = new Parametro();
+        for (Parametro pr : lerUsuarioDoParametro()) {
+            rets.setTipo(pr.getTipo());
         }
-
-        int atualizar = JOptionPane.showConfirmDialog(null, "Confirma tarefa de atualizar este registro? ", "CONFIRMAÇÃO", JOptionPane.YES_NO_OPTION);
-        if (atualizar == JOptionPane.YES_OPTION) {
-
-            Usuario u = new Usuario();
-            UsuarioDAO dao = new UsuarioDAO();
-
-            u.setNome(txtNome.getText().toUpperCase());
-            u.setFone(jFormattedTextFone.getText());
-            u.setLogin(txtLogin.getText());
-            u.setSenha(txtSenha.getText());
-            u.setTipo((String)jComboBoXTipo.getSelectedItem());
-            
-            u.setIduser(Integer.parseInt(txtCodigo.getText()));
-
-            dao.updateUsuario(u);
-
-//Atualiza a tabela
-            readTable();
-
-//Limpa campos
-            txtCodigo.setText("");
-            txtNome.setText("");
-            jFormattedTextFone.setText("");
-            txtLogin.setText("");
-            txtSenha.setText("");
-            jComboBoXTipo.setSelectedIndex(0);
-
-//Reinicia campo de consulta            
-            txtConsulta.setText("");
-            txtConsulta.requestFocus();
-
-//As linhas abaixo reiniciam os campos
-            txtCodigo.setEnabled(false);
-            txtNome.setEnabled(false);
-            jFormattedTextFone.setEnabled(false);
-            txtLogin.setEnabled(false);
-            txtSenha.setEnabled(false);
-            jComboBoXTipo.setEnabled(false);
-
-//As linhas abaixo reiniciam os botões
-            btnLimpar.setEnabled(false);
+        //as linhas abaixo testam a senha do usuário
+        if (!rets.getTipo().equals("Administrador")) {
+            JOptionPane.showMessageDialog(null, "Você não está autorizado a realizar esta operação", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
             btnExcluir.setEnabled(false);
             btnAtualizar.setEnabled(false);
-            btnSalvar.setEnabled(false);
+        } else {
 
+            //As linhas abaixo confirmam o interesse do usuário excluem um registro escolhido 
+            int atualizar = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja atualizar este registro?? ", "CONFIRMA", JOptionPane.YES_NO_OPTION);
+            if (atualizar == JOptionPane.YES_OPTION) {
+
+                if ((txtNome.getText().isEmpty())
+                        || (jFormattedTextFone.getText().isEmpty())
+                        || (txtLogin.getText().isEmpty())
+                        || (txtSenha.getText().isEmpty())
+                        || (jComboBoXTipo.getSelectedItem().equals("Escolha"))) {
+                    JOptionPane.showMessageDialog(null, "Verifique os campos obrigatórios, TODOS DEVEM ESTAR PREENCHIDOS!! ", "AVISO", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+//                int atualizar = JOptionPane.showConfirmDialog(null, "Confirma tarefa de atualizar este registro? ", "CONFIRMAÇÃO", JOptionPane.YES_NO_OPTION);
+//                if (atualizar == JOptionPane.YES_OPTION) {
+                Usuario u = new Usuario();
+                UsuarioDAO dao = new UsuarioDAO();
+
+                u.setNome(txtNome.getText().toUpperCase());
+                u.setFone(jFormattedTextFone.getText());
+                u.setLogin(txtLogin.getText());
+                u.setSenha(txtSenha.getText());
+                u.setTipo((String) jComboBoXTipo.getSelectedItem());
+
+                u.setIduser(Integer.parseInt(txtCodigo.getText()));
+
+                dao.updateUsuario(u);
+
+//Atualiza a tabela
+                readTable();
+
+//Limpa campos
+                txtCodigo.setText("");
+                txtNome.setText("");
+                jFormattedTextFone.setText("");
+                txtLogin.setText("");
+                txtSenha.setText("");
+                jComboBoXTipo.setSelectedIndex(0);
+
+//Reinicia campo de consulta            
+                txtConsulta.setText("");
+                txtConsulta.requestFocus();
+
+//As linhas abaixo desabilitam os campos
+                txtCodigo.setEnabled(false);
+                txtNome.setEnabled(false);
+                jFormattedTextFone.setEnabled(false);
+                txtLogin.setEnabled(false);
+                txtSenha.setEnabled(false);
+                jComboBoXTipo.setEnabled(false);
+
+//As linhas abaixo desabilitam os botões
+                btnLimpar.setEnabled(false);
+                if (FormMenu.lblUsuario.getText().equals("ADMGERAL")) {
+                    btnExcluir.setEnabled(true);
+                } else {
+                    btnExcluir.setEnabled(false);
+                }
+                btnAtualizar.setEnabled(false);
+                btnSalvar.setEnabled(false);
+
+            }
         }
     }//GEN-LAST:event_btnAtualizarActionPerformed
 
@@ -751,8 +840,8 @@ public class FormUsuario extends javax.swing.JFrame {
             u.setFone(jFormattedTextFone.getText());
             u.setLogin(txtLogin.getText());
             u.setSenha(txtSenha.getText());
-            u.setTipo((String)jComboBoXTipo.getSelectedItem());
-            
+            u.setTipo((String) jComboBoXTipo.getSelectedItem());
+
             dao.saveUsuario(u);
 
 //Atualiza a tabela
@@ -780,7 +869,11 @@ public class FormUsuario extends javax.swing.JFrame {
 
 //As linhas abaixo reiniciam os botões
             btnLimpar.setEnabled(false);
-            btnExcluir.setEnabled(false);
+            if (FormMenu.lblUsuario.getText().equals("ADMGERAL")) {
+                btnExcluir.setEnabled(true);
+            } else {
+                btnExcluir.setEnabled(false);
+            }
             btnAtualizar.setEnabled(false);
             btnSalvar.setEnabled(false);
 
@@ -800,7 +893,7 @@ public class FormUsuario extends javax.swing.JFrame {
 
     private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
         // TODO add your handling code here:
-         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             jComboBoXTipo.requestFocus();
         }
     }//GEN-LAST:event_txtSenhaKeyPressed
@@ -819,16 +912,24 @@ public class FormUsuario extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormUsuario.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormUsuario.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormUsuario.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormUsuario.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

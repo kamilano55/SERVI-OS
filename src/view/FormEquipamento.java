@@ -37,40 +37,86 @@ public class FormEquipamento extends javax.swing.JFrame {
     public FormEquipamento() {
         initComponents();
 
-//As linhas abaixo fazem o sort da tabela
+        //As linhas abaixo fazem o sort da tabela
         DefaultTableModel modelo = (DefaultTableModel) jTableEquipamento.getModel();
         jTableEquipamento.setRowSorter(new TableRowSorter(modelo));
 
-//A linha abaixo chama a tabela
+        //A linha abaixo chama a tabela
         readTable();
 
-// Esta linha prenche os combobox
+        // Esta linha prenche os comboboxs cliente e contrato
         combobox();
+        //prepara a foto logo de abertura
+        colocaLogo();
+        //desabilita todos os campos
+        desabilitaCampos();
+        //desabilita botões
+        desabilitaBottons();
 
-//Desabilitar campos
-        txtCodigo.setEnabled(false);
+    }
+
+    public void limpaCampos() {
+        //Limpar campos
+        jComboBoxCliente.setSelectedIndex(0);
+        jComboBoxContrato.setSelectedIndex(0);
+
+        txtCodigo.setText("");
+        txtNome.setText("");
+        txtFabricante.setText("");
+        txtModelo.setText("");
+        jFormattedTextDtFab.setText("");
+        jFormattedTextDtInstal.setText("");
+        jFormattedTextGap.setText("");
+        jFormattedTextDtUltiManut.setText("");
+        txtAtendimentos.setText("");
+        jTextAreaHistInicial.setText("");
+        lblFoto.setText("");
+        lblNomeFoto.setText("");
+    }
+
+    public void desabilitaBottons() {
+        //Desabilitar botôes
+        btnLimpar.setEnabled(false);
+        btnExcluir.setEnabled(false);
+        btnAtualizar.setEnabled(false);
+        btnSalvar.setEnabled(false);
+    }
+
+    public void desabilitaCampos() {
+        //Desabilitar campos
+        jComboBoxCliente.setEnabled(false);
+        jComboBoxContrato.setEnabled(false);
+
         txtNome.setEnabled(false);
         txtFabricante.setEnabled(false);
         txtModelo.setEnabled(false);
         jFormattedTextDtFab.setEnabled(false);
         jFormattedTextDtInstal.setEnabled(false);
-        jTextAreaHistInicial.setEnabled(false);
         jFormattedTextGap.setEnabled(false);
-        jFormattedTextDtUltManut.setEnabled(false);
+        jTextAreaHistInicial.setEnabled(false);
+        lblFoto.setEnabled(false);
+    }
 
-        jComboBoxCliente.setEnabled(false);
-        jComboBoxContrato.setEnabled(false);
+    public void habilitarCampos() {
+        //habilita campos
+        jComboBoxCliente.setEnabled(true);
+        jComboBoxContrato.setEnabled(true);
 
-//Desabilitar botôes
-        btnLimpar.setEnabled(false);
-        btnExcluir.setEnabled(false);
-        btnAtualizar.setEnabled(false);
-        btnSalvar.setEnabled(false);
-
-//Prepara foto
+        txtNome.setEnabled(true);
+        txtFabricante.setEnabled(true);
+        txtModelo.setEnabled(true);
+        jFormattedTextDtFab.setEnabled(true);
+        jFormattedTextDtInstal.setEnabled(true);
+        jFormattedTextGap.setEnabled(true);
+        jTextAreaHistInicial.setEnabled(true);
         lblFoto.setEnabled(true);
-        lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/adm1.jpg")));
-        lblNomeFoto.setEnabled(false);
+    }
+
+    public void colocaLogo() {
+        //Prepara foto
+        lblFoto.setEnabled(true);
+        lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")));
+//        lblNomeFoto.setEnabled(false);
     }
 
     public void combobox() {
@@ -84,10 +130,9 @@ public class FormEquipamento extends javax.swing.JFrame {
         for (Contrato co : condao.readAllContrato()) {
             jComboBoxContrato.addItem(co);
         }
-
     }
 
-//Monta a tabela
+    //Monta a tabela
     public void readTable() {
         DefaultTableModel modelo = (DefaultTableModel) jTableEquipamento.getModel();
         modelo.setNumRows(0);
@@ -102,9 +147,10 @@ public class FormEquipamento extends javax.swing.JFrame {
                 p.getModelo(),
                 p.getDt_fabric(),
                 p.getDt_instal(),
-                p.getHistor_inicial(),
                 p.getGap_manut(),
-                p.getDt_ultmanut(),
+                p.getDt_ultimanut(),
+                p.getAtendimentos(),
+                p.getHistor_inicial(),
                 p.getCliente(),
                 p.getContrato(),
                 p.getFoto()
@@ -132,8 +178,9 @@ public class FormEquipamento extends javax.swing.JFrame {
         txtFabricante = new javax.swing.JTextField();
         lblCodigo = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jFormattedTextDtUltManut = new javax.swing.JFormattedTextField();
+        jFormattedTextDtUltiManut = new javax.swing.JFormattedTextField();
         lblUltManut = new javax.swing.JLabel();
         lblGap = new javax.swing.JLabel();
         jFormattedTextGap = new javax.swing.JFormattedTextField();
@@ -142,6 +189,8 @@ public class FormEquipamento extends javax.swing.JFrame {
         lblHistInicial = new javax.swing.JLabel();
         lblDtInstal = new javax.swing.JLabel();
         jFormattedTextDtInstal = new javax.swing.JFormattedTextField();
+        lblAtendimentos = new javax.swing.JLabel();
+        txtAtendimentos = new javax.swing.JTextField();
         btnSair = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         btnNovo = new javax.swing.JButton();
@@ -163,6 +212,7 @@ public class FormEquipamento extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("DADOS DO EQUIPAMENTO");
+        setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("DADOS DO EQUIPAMENTO"));
 
@@ -171,6 +221,12 @@ public class FormEquipamento extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jFormattedTextDtFab.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jFormattedTextDtFab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextDtFabActionPerformed(evt);
+            }
+        });
         jFormattedTextDtFab.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jFormattedTextDtFabKeyPressed(evt);
@@ -189,7 +245,6 @@ public class FormEquipamento extends javax.swing.JFrame {
 
         lblFabric.setText("* Fabric.");
 
-        txtModelo.setText("modelo");
         txtModelo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtModeloKeyPressed(evt);
@@ -209,48 +264,58 @@ public class FormEquipamento extends javax.swing.JFrame {
         txtCodigo.setEditable(false);
         txtCodigo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtCodigo.setForeground(new java.awt.Color(255, 51, 51));
+        txtCodigo.setEnabled(false);
+
+        jLabel3.setBackground(new java.awt.Color(102, 153, 255));
+        jLabel3.setForeground(new java.awt.Color(102, 153, 255));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_building_error_35763 (1).png"))); // NOI18N
+        jLabel3.setText("(*) - Campo de preenchimento OBRIGATÓRIO");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNome)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblFabric)
-                                .addGap(24, 24, 24)
-                                .addComponent(txtFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(76, 76, 76)
                         .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
+                        .addComponent(lblCodigo)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(393, 393, 393)
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNome)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblCodigo)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblDtFabric)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jFormattedTextDtFab)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblModelo)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(92, Short.MAX_VALUE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblFabric)
+                                    .addComponent(lblModelo))
+                                .addGap(24, 24, 24)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(lblDtFabric)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jFormattedTextDtFab, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCodigo)
-                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCodigo)
+                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNome)
@@ -270,12 +335,16 @@ public class FormEquipamento extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("DADOS GERAIS DE MANUTENÇÃO"));
 
-        jFormattedTextDtUltManut.setEditable(false);
+        jFormattedTextDtUltiManut.setEditable(false);
+        jFormattedTextDtUltiManut.setBackground(new java.awt.Color(255, 255, 255));
+        jFormattedTextDtUltiManut.setForeground(new java.awt.Color(255, 51, 51));
         try {
-            jFormattedTextDtUltManut.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            jFormattedTextDtUltiManut.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jFormattedTextDtUltiManut.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jFormattedTextDtUltiManut.setEnabled(false);
 
         lblUltManut.setText("Dt.Últ.Manut.");
 
@@ -301,11 +370,20 @@ public class FormEquipamento extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jFormattedTextDtInstal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jFormattedTextDtInstal.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jFormattedTextDtInstalKeyPressed(evt);
             }
         });
+
+        lblAtendimentos.setText("N* de Atendimentos");
+
+        txtAtendimentos.setEditable(false);
+        txtAtendimentos.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        txtAtendimentos.setForeground(new java.awt.Color(255, 51, 51));
+        txtAtendimentos.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtAtendimentos.setEnabled(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -313,24 +391,29 @@ public class FormEquipamento extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblHistInicial)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblDtInstal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFormattedTextDtInstal, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jFormattedTextDtInstal, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
                         .addComponent(lblGap)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jFormattedTextGap, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(66, 66, 66)
                         .addComponent(lblUltManut)
+                        .addGap(29, 29, 29)
+                        .addComponent(jFormattedTextDtUltiManut, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jFormattedTextDtUltManut, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(lblAtendimentos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtAtendimentos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,9 +423,11 @@ public class FormEquipamento extends javax.swing.JFrame {
                     .addComponent(lblGap)
                     .addComponent(jFormattedTextGap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblUltManut)
-                    .addComponent(jFormattedTextDtUltManut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jFormattedTextDtUltiManut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblDtInstal)
-                    .addComponent(jFormattedTextDtInstal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jFormattedTextDtInstal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAtendimentos)
+                    .addComponent(txtAtendimentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -350,6 +435,9 @@ public class FormEquipamento extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        btnSair.setBackground(new java.awt.Color(0, 153, 153));
+        btnSair.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnSair.setForeground(new java.awt.Color(255, 255, 255));
         btnSair.setText("SAIR");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -357,6 +445,9 @@ public class FormEquipamento extends javax.swing.JFrame {
             }
         });
 
+        btnNovo.setBackground(new java.awt.Color(0, 153, 153));
+        btnNovo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnNovo.setForeground(new java.awt.Color(255, 255, 255));
         btnNovo.setText("NOVO");
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -364,6 +455,9 @@ public class FormEquipamento extends javax.swing.JFrame {
             }
         });
 
+        btnLimpar.setBackground(new java.awt.Color(0, 153, 153));
+        btnLimpar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnLimpar.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpar.setText("LIMPAR");
         btnLimpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -371,6 +465,9 @@ public class FormEquipamento extends javax.swing.JFrame {
             }
         });
 
+        btnExcluir.setBackground(new java.awt.Color(0, 153, 153));
+        btnExcluir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnExcluir.setForeground(new java.awt.Color(255, 255, 255));
         btnExcluir.setText("EXCLUIR");
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -378,6 +475,9 @@ public class FormEquipamento extends javax.swing.JFrame {
             }
         });
 
+        btnAtualizar.setBackground(new java.awt.Color(0, 153, 153));
+        btnAtualizar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnAtualizar.setForeground(new java.awt.Color(255, 255, 255));
         btnAtualizar.setText("ATUALIZAR");
         btnAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -385,6 +485,9 @@ public class FormEquipamento extends javax.swing.JFrame {
             }
         });
 
+        btnSalvar.setBackground(new java.awt.Color(0, 153, 153));
+        btnSalvar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnSalvar.setForeground(new java.awt.Color(255, 255, 255));
         btnSalvar.setText("SALVAR");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -409,26 +512,21 @@ public class FormEquipamento extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnNovo)
+                .addContainerGap()
+                .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnLimpar)
+                .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnExcluir)
+                .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnAtualizar)
+                .addComponent(btnAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnSalvar)
-                .addGap(55, 55, 55))
+                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         jComboBoxCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha" }));
         jComboBoxCliente.setActionCommand("");
-        jComboBoxCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxClienteActionPerformed(evt);
-            }
-        });
         jComboBoxCliente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jComboBoxClienteKeyPressed(evt);
@@ -449,17 +547,17 @@ public class FormEquipamento extends javax.swing.JFrame {
 
         jTableEquipamento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Cód", "Dt Contrato", "Nome", "Fabricante", "Modelo", "Dt.Fabric", "Dt.Instal.", "Hist.Inicial", "Gap", "Dt.Últ.Manut.", "Cliente", "Contrato", "Foto"
+                "Cód", "Dt Contrato", "Nome", "Fabricante", "Modelo", "Dt.Fabric", "Dt.Instal.", "Gap", "Dt.Últ.Manut.", "N* OSs", "Hist.Inicial", "Cliente", "Contrato", "Foto"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -496,7 +594,7 @@ public class FormEquipamento extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        lblFoto.setBorder(javax.swing.BorderFactory.createTitledBorder("FOTO"));
+        lblFoto.setEnabled(false);
         lblFoto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblFotoMouseClicked(evt);
@@ -521,6 +619,9 @@ public class FormEquipamento extends javax.swing.JFrame {
         );
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("NOME DA FOTO"));
+
+        lblNomeFoto.setEnabled(false);
+        lblNomeFoto.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -552,57 +653,54 @@ public class FormEquipamento extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblCliente)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBoxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                        .addComponent(lblContrato)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBoxContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(228, 228, 228))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnSair)
-                                .addGap(14, 14, 14)))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(64, 64, 64))))
+                                .addComponent(lblCliente)
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBoxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(41, 41, 41)
+                                .addComponent(lblContrato)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jComboBoxContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(64, 64, 64))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblContrato)
-                    .addComponent(jComboBoxContrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblCliente)
-                    .addComponent(jComboBoxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 78, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblContrato)
+                                .addComponent(jComboBoxContrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblCliente)
+                                .addComponent(jComboBoxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(44, 44, 44)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSair)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         pack();
@@ -612,39 +710,14 @@ public class FormEquipamento extends javax.swing.JFrame {
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
         // TODO add your handling code here:
 
-//habilita campos
-//        txtCodigo.setEnabled(true);
-        txtNome.setEnabled(true);
-        txtFabricante.setEnabled(true);
-        txtModelo.setEnabled(true);
-        jFormattedTextDtFab.setEnabled(true);
-        jFormattedTextDtInstal.setEnabled(true);
-        jTextAreaHistInicial.setEnabled(true);
-        jFormattedTextGap.setEnabled(true);
-        jFormattedTextDtUltManut.setEnabled(true);
+        //habilita campos
+        habilitarCampos();
 
-        jComboBoxCliente.setEnabled(true);
-        jComboBoxContrato.setEnabled(true);
+        //limpa todos os campos
+        limpaCampos();
 
-//Limpar campos
-        txtCodigo.setText("");
-        txtNome.setText("");
-        txtFabricante.setText("");
-        txtModelo.setText("");
-        jFormattedTextDtFab.setText("");
-        jFormattedTextDtInstal.setText("");
-        jTextAreaHistInicial.setText("");
-        jFormattedTextGap.setText("");
-        jFormattedTextDtUltManut.setText("");
-        lblFoto.setText("");
-        lblNomeFoto.setText("");
-
-        jComboBoxCliente.setSelectedIndex(0);
-        jComboBoxContrato.setSelectedIndex(0);
-
-//Prepara foto
-        lblFoto.setEnabled(true);
-        lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/adm1.jpg")));
+        //prepara a foto logo de abertura
+        colocaLogo();
 
 //Prepara botôes
         btnLimpar.setEnabled(true);
@@ -682,12 +755,12 @@ public class FormEquipamento extends javax.swing.JFrame {
             eq.setModelo(txtModelo.getText());
             eq.setDt_fabric(jFormattedTextDtFab.getText());
             eq.setDt_instal(jFormattedTextDtInstal.getText());
-            eq.setHistor_inicial(jTextAreaHistInicial.getText());
             eq.setGap_manut(jFormattedTextGap.getText());
-            eq.setDt_ultmanut(jFormattedTextDtUltManut.getText());
+            eq.setDt_ultimanut(jFormattedTextDtUltiManut.getText());
+            eq.setHistor_inicial(jTextAreaHistInicial.getText());
             eq.setFoto(lblNomeFoto.getText());
 
-//As linhas abaixo pegam no combobox, que contem o objeto, o idcliente e o idcontrato
+            //As linhas abaixo pegam no combobox, que contem o objeto, o idcliente e o idcontrato
             Cliente cli = (Cliente) jComboBoxCliente.getSelectedItem();
             cli.setIdcliente(cli.getIdcliente());
             eq.setCliente(cli);
@@ -698,55 +771,21 @@ public class FormEquipamento extends javax.swing.JFrame {
 
             dao.saveEquipamento(eq);
 
-//Reinicia a tabela        
+            //Reinicia a tabela        
             readTable();
 
-//Desabilitar campos
-            txtCodigo.setEnabled(false);
-            txtNome.setEnabled(false);
-            txtFabricante.setEnabled(false);
-            txtModelo.setEnabled(false);
-            jFormattedTextDtFab.setEnabled(false);
-            jFormattedTextDtInstal.setEnabled(false);
-            jTextAreaHistInicial.setEnabled(false);
-            jFormattedTextGap.setEnabled(false);
-//            jFormattedTextDtUltManut.setEnabled(false);
+            //desabilita todos os campos
+            desabilitaCampos();
 
-            jComboBoxCliente.setEnabled(false);
-            jComboBoxContrato.setEnabled(false);
+            //prepara a foto logo de abertura
+            colocaLogo();
 
-//Desabilitar botôes
-            btnLimpar.setEnabled(false);
-            btnExcluir.setEnabled(false);
-            btnAtualizar.setEnabled(false);
-            btnSalvar.setEnabled(false);
+            //limpa todos os campos
+            limpaCampos();
 
-//reinicia label foto
-            lblFoto.setEnabled(true);
-            lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/adm1.jpg")));
+            //desabilita botões
+            desabilitaBottons();
 
-//Limpar campos
-            txtCodigo.setText("");
-            txtNome.setText("");
-            txtFabricante.setText("");
-            txtModelo.setText("");
-            jFormattedTextDtFab.setText("");
-            jFormattedTextDtInstal.setText("");
-            jTextAreaHistInicial.setText("");
-            jFormattedTextGap.setText("");
-            jFormattedTextDtUltManut.setText("");
-            lblFoto.setText("");
-
-            jComboBoxCliente.setSelectedIndex(0);
-            jComboBoxContrato.setSelectedIndex(0);
-
-////limpa campo consulta            
-//            txtConsulta.setText("");
-//Atualiza botões        
-            btnLimpar.setEnabled(false);
-            btnSalvar.setEnabled(false);
-            btnExcluir.setEnabled(false);
-            btnAtualizar.setEnabled(false);
         } else {
             JOptionPane.showMessageDialog(null, "Verifique os campos cliente e contrato, AMBOS DEVEM SER SELECIONADOS!! ", "AVISO", JOptionPane.WARNING_MESSAGE);
         }
@@ -773,12 +812,11 @@ public class FormEquipamento extends javax.swing.JFrame {
             eq.setModelo(txtModelo.getText());
             eq.setDt_fabric(jFormattedTextDtFab.getText());
             eq.setDt_instal(jFormattedTextDtInstal.getText());
-            eq.setHistor_inicial(jTextAreaHistInicial.getText());
             eq.setGap_manut(jFormattedTextGap.getText());
-            eq.setDt_ultmanut(jFormattedTextDtUltManut.getText());
+            eq.setHistor_inicial(jTextAreaHistInicial.getText());
             eq.setFoto(lblNomeFoto.getText());
 
-//As linhas abaixo pegam no combobox, que contem o objeto, o idcliente e o idcontrato
+            //As linhas abaixo pegam no combobox, que contem o objeto, o idcliente e o idcontrato
             Cliente cli = (Cliente) jComboBoxCliente.getSelectedItem();
             cli.setIdcliente(cli.getIdcliente());
             eq.setCliente(cli);
@@ -791,56 +829,21 @@ public class FormEquipamento extends javax.swing.JFrame {
 
             dao.updateEquipamento(eq);
 
-//Reinicia a tabela        
+            //Reinicia a tabela        
             readTable();
 
-//Desabilitar campos
-            txtCodigo.setEnabled(false);
-            txtNome.setEnabled(false);
-            txtFabricante.setEnabled(false);
-            txtModelo.setEnabled(false);
-            jFormattedTextDtFab.setEnabled(false);
-            jFormattedTextDtInstal.setEnabled(false);
-            jTextAreaHistInicial.setEnabled(false);
-            jFormattedTextGap.setEnabled(false);
-            jFormattedTextDtUltManut.setEnabled(false);
+            //desabilita todos os campos
+            desabilitaCampos();
 
-            jComboBoxCliente.setEnabled(false);
-            jComboBoxContrato.setEnabled(false);
+            //prepara a foto logo de abertura
+            colocaLogo();
 
-//Desabilitar botôes
-            btnLimpar.setEnabled(false);
-            btnExcluir.setEnabled(false);
-            btnAtualizar.setEnabled(false);
-            btnSalvar.setEnabled(false);
+            //limpa todos os campos
+            limpaCampos();
 
-//reinicia label foto
-            lblFoto.setEnabled(true);
-            lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/adm1.jpg")));
+            //desabilita botões
+            desabilitaBottons();
 
-//Limpar campos
-            txtCodigo.setText("");
-            txtNome.setText("");
-            txtFabricante.setText("");
-            txtModelo.setText("");
-            jFormattedTextDtFab.setText("");
-            jFormattedTextDtInstal.setText("");
-            jTextAreaHistInicial.setText("");
-            jFormattedTextGap.setText("");
-            jFormattedTextDtUltManut.setText("");
-            lblFoto.setText("");
-            lblNomeFoto.setText("");
-
-            jComboBoxCliente.setSelectedIndex(0);
-            jComboBoxContrato.setSelectedIndex(0);
-
-////limpa campo consulta            
-//            txtConsulta.setText("");
-//Atualiza botões        
-            btnLimpar.setEnabled(false);
-            btnSalvar.setEnabled(false);
-            btnExcluir.setEnabled(false);
-            btnAtualizar.setEnabled(false);
         } else {
             JOptionPane.showMessageDialog(null, "Verifique os campos cliente e contrato, AMBOS DEVEM SER SELECIONADOS!! ", "AVISO", JOptionPane.WARNING_MESSAGE);
         }
@@ -860,91 +863,68 @@ public class FormEquipamento extends javax.swing.JFrame {
 
             dao.deleteEquipamento(equip);
 
-//Atualiza a tabela
+            //Atualiza a tabela
             readTable();
 
-//Limpar campos
-            txtCodigo.setText("");
-            txtNome.setText("");
-            txtFabricante.setText("");
-            txtModelo.setText("");
-            jFormattedTextDtFab.setText("");
-            jFormattedTextDtInstal.setText("");
-            jTextAreaHistInicial.setText("");
-            jFormattedTextGap.setText("");
-            jFormattedTextDtUltManut.setText("");
-            lblFoto.setText("");
+            //limpa todos os campos
+            limpaCampos();
 
-            jComboBoxCliente.setSelectedIndex(0);
-            jComboBoxContrato.setSelectedIndex(0);
+            //prepara a foto logo de abertura
+            colocaLogo();
 
-//reinicia label foto
-            lblFoto.setEnabled(true);
-            lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/adm1.jpg")));
-
-//Desabilitar botôes
-            btnLimpar.setEnabled(false);
-            btnExcluir.setEnabled(false);
-            btnAtualizar.setEnabled(false);
-            btnSalvar.setEnabled(false);
+            //desabilita botões
+            desabilitaBottons();
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void jTableEquipamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableEquipamentoMouseClicked
         // TODO add your handling code here:
-//Posiciona os comboboxs cliente e contrato e reinicia a tabela
+        //Posiciona os comboboxs cliente e contrato e reinicia a tabela
         jComboBoxCliente.setSelectedIndex(0);
         jComboBoxContrato.setSelectedIndex(0);
-        
-//Confirma se uma linha foi escolhida e preenche os campos com o conteudo da tabela
+
+        //Confirma se uma linha foi escolhida e preenche os campos com o conteudo da tabela
         if (jTableEquipamento.getSelectedRow() != -1) {
-//habilita campos
-            txtCodigo.setEnabled(true);
-            txtNome.setEnabled(true);
-            txtFabricante.setEnabled(true);
-            txtModelo.setEnabled(true);
-            jFormattedTextDtFab.setEnabled(true);
-            jFormattedTextDtInstal.setEnabled(true);
-            jTextAreaHistInicial.setEnabled(true);
-            jFormattedTextGap.setEnabled(true);
-            jFormattedTextDtUltManut.setEnabled(true);
+            //habilita campos
+            habilitarCampos();
 
-            jComboBoxCliente.setEnabled(true);
-            jComboBoxContrato.setEnabled(true);
-
-// Prepara botões
+            // Prepara botões
             btnLimpar.setEnabled(false);
-            btnExcluir.setEnabled(true);
+            //verifica se o usuario e o administrador geral e se não for desabilita o botão excluir
+            if (FormMenu.lblUsuario.getText().equals("ADMGERAL")) {
+                btnExcluir.setEnabled(true);
+            } else {
+                btnExcluir.setEnabled(false);
+            }
+
             btnAtualizar.setEnabled(true);
             btnSalvar.setEnabled(false);
 
-//Chama os campos da tabela
+            //Chama os campos da tabela
             txtCodigo.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 0).toString());
             txtNome.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 2).toString());
             txtFabricante.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 3).toString());
             txtModelo.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 4).toString());
             jFormattedTextDtFab.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 5).toString());
-            
             jFormattedTextDtInstal.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 6).toString());
-            jTextAreaHistInicial.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 7).toString());
-            
-            jFormattedTextGap.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 8).toString());
-            jFormattedTextDtUltManut.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 9).toString());
-            
-            
-            Cliente cliente = (Cliente) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 10);
+            jFormattedTextGap.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 7).toString());
+            jFormattedTextDtUltiManut.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 8).toString());
+            txtAtendimentos.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 9).toString());
+            jTextAreaHistInicial.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 10).toString());
+
+            Cliente cliente = (Cliente) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 11);
             cliente.setIdcliente(Integer.parseInt(String.valueOf(cliente.getIdcliente())));
 //            JOptionPane.showMessageDialog(null, cliente.getIdcliente());
             jComboBoxCliente.setSelectedIndex(cliente.getIdcliente());
 
-            Contrato contrato = (Contrato) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 11);
+            Contrato contrato = (Contrato) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 12);
             contrato.setIdcontrato(Integer.parseInt(String.valueOf(contrato.getIdcontrato())));
             jComboBoxContrato.setSelectedIndex(contrato.getIdcontrato());
 
             Equipamento c = new Equipamento();
             EquipamentoDAO dao = new EquipamentoDAO();
 
-            c.setFoto((String) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 12));
+            c.setFoto((String) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 13));
             String nomeImagem = c.getFoto();
 
             if (!nomeImagem.isEmpty()) {
@@ -954,109 +934,78 @@ public class FormEquipamento extends javax.swing.JFrame {
                 lblNomeFoto.setText(nomeImagem);
             } else {
                 JOptionPane.showMessageDialog(null, "Não existe Imagem para este registro");
-//Reinicia label foto 
+                //Reinicia label foto 
                 lblNomeFoto.setText("");
-                lblNomeFoto.setEnabled(false);
-                lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/adm1.jpg")));
+//                lblNomeFoto.setEnabled(false);
+                lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")));
             }
         }
     }//GEN-LAST:event_jTableEquipamentoMouseClicked
 
-    private void jComboBoxClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxClienteActionPerformed
-
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         // TODO add your handling code here:
-//Limpar campos
-        txtCodigo.setText("");
-        txtNome.setText("");
-        txtFabricante.setText("");
-        jFormattedTextDtFab.setText("");
-        txtModelo.setText("");
+        //limpa todos os campos
+        limpaCampos();
 
-        jFormattedTextDtInstal.setText("");
-        jFormattedTextGap.setText("");
-        jFormattedTextDtUltManut.setText("");
-        jTextAreaHistInicial.setText("");
-        lblFoto.setText("");
-
-//Reinicia a tabela
+        //Reinicia a tabela
         readTable();
-        jComboBoxCliente.setSelectedIndex(0);
-        jComboBoxContrato.setSelectedIndex(0);
 
-//reinicia label foto
-        lblFoto.setEnabled(true);
-        lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/adm1.jpg")));
-        lblNomeFoto.setText("");
+        //prepara a foto logo de abertura
+        colocaLogo();
 
-//Desabilitar botôes
-        btnLimpar.setEnabled(true);
-        btnExcluir.setEnabled(false);
-        btnAtualizar.setEnabled(false);
-        btnSalvar.setEnabled(true);
-
-//Posiciona o cursor
+        //Posiciona o cursor
         txtNome.requestFocus();
 
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void jTableEquipamentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableEquipamentoKeyReleased
         // TODO add your handling code here:
-       //Posiciona os comboboxs cliente e contrato e reinicia a tabela
+        //Posiciona os comboboxs cliente e contrato e reinicia a tabela
         jComboBoxCliente.setSelectedIndex(0);
         jComboBoxContrato.setSelectedIndex(0);
-        
-//Confirma se uma linha foi escolhida e preenche os campos com o conteudo da tabela
+
+        //Confirma se uma linha foi escolhida e preenche os campos com o conteudo da tabela
         if (jTableEquipamento.getSelectedRow() != -1) {
-//habilita campos
-            txtCodigo.setEnabled(true);
-            txtNome.setEnabled(true);
-            txtFabricante.setEnabled(true);
-            txtModelo.setEnabled(true);
-            jFormattedTextDtFab.setEnabled(true);
-            jFormattedTextDtInstal.setEnabled(true);
-            jTextAreaHistInicial.setEnabled(true);
-            jFormattedTextGap.setEnabled(true);
-            jFormattedTextDtUltManut.setEnabled(true);
+            //habilita campos
+            habilitarCampos();
 
-            jComboBoxCliente.setEnabled(true);
-            jComboBoxContrato.setEnabled(true);
-
-// Prepara botões
+            // Prepara botões
             btnLimpar.setEnabled(false);
-            btnExcluir.setEnabled(true);
+
+            if (FormMenu.lblUsuario.getText().equals("ADMGERAL")) {
+                btnExcluir.setEnabled(true);
+            } else {
+                btnExcluir.setEnabled(false);
+            }
+
             btnAtualizar.setEnabled(true);
             btnSalvar.setEnabled(false);
 
-//Chama os campos da tabela
+            //Chama os campos da tabela
             txtCodigo.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 0).toString());
             txtNome.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 2).toString());
             txtFabricante.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 3).toString());
             txtModelo.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 4).toString());
             jFormattedTextDtFab.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 5).toString());
-            
             jFormattedTextDtInstal.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 6).toString());
-            jTextAreaHistInicial.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 7).toString());
-            
-            jFormattedTextGap.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 8).toString());
-            jFormattedTextDtUltManut.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 9).toString());
-            
-            
-            Cliente cliente = (Cliente) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 10);
+            jFormattedTextGap.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 7).toString());
+            jFormattedTextDtUltiManut.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 8).toString());
+            txtAtendimentos.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 9).toString());
+            jTextAreaHistInicial.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 10).toString());
+
+            Cliente cliente = (Cliente) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 11);
             cliente.setIdcliente(Integer.parseInt(String.valueOf(cliente.getIdcliente())));
 //            JOptionPane.showMessageDialog(null, cliente.getIdcliente());
             jComboBoxCliente.setSelectedIndex(cliente.getIdcliente());
 
-            Contrato contrato = (Contrato) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 11);
+            Contrato contrato = (Contrato) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 12);
             contrato.setIdcontrato(Integer.parseInt(String.valueOf(contrato.getIdcontrato())));
             jComboBoxContrato.setSelectedIndex(contrato.getIdcontrato());
 
             Equipamento c = new Equipamento();
             EquipamentoDAO dao = new EquipamentoDAO();
 
-            c.setFoto((String) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 12));
+            c.setFoto((String) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 13));
             String nomeImagem = c.getFoto();
 
             if (!nomeImagem.isEmpty()) {
@@ -1066,10 +1015,10 @@ public class FormEquipamento extends javax.swing.JFrame {
                 lblNomeFoto.setText(nomeImagem);
             } else {
                 JOptionPane.showMessageDialog(null, "Não existe Imagem para este registro");
-//Reinicia label foto 
+                //Reinicia label foto 
                 lblNomeFoto.setText("");
-                lblNomeFoto.setEnabled(false);
-                lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/adm1.jpg")));
+//                lblNomeFoto.setEnabled(false);
+                lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")));
             }
         }
     }//GEN-LAST:event_jTableEquipamentoKeyReleased
@@ -1098,21 +1047,21 @@ public class FormEquipamento extends javax.swing.JFrame {
     private void txtFabricanteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFabricanteKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            jFormattedTextDtFab.requestFocus();
+            txtModelo.requestFocus();
         }
     }//GEN-LAST:event_txtFabricanteKeyPressed
 
     private void jFormattedTextDtFabKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextDtFabKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txtModelo.requestFocus();
+            jFormattedTextDtInstal.requestFocus();
         }
     }//GEN-LAST:event_jFormattedTextDtFabKeyPressed
 
     private void txtModeloKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtModeloKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            jFormattedTextDtInstal.requestFocus();
+            jFormattedTextDtFab.requestFocus();
         }
     }//GEN-LAST:event_txtModeloKeyPressed
 
@@ -1181,6 +1130,10 @@ public class FormEquipamento extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lblFotoMouseClicked
 
+    private void jFormattedTextDtFabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextDtFabActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFormattedTextDtFabActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1227,8 +1180,9 @@ public class FormEquipamento extends javax.swing.JFrame {
     private javax.swing.JComboBox<Object> jComboBoxContrato;
     private javax.swing.JFormattedTextField jFormattedTextDtFab;
     private javax.swing.JFormattedTextField jFormattedTextDtInstal;
-    private javax.swing.JFormattedTextField jFormattedTextDtUltManut;
+    private javax.swing.JFormattedTextField jFormattedTextDtUltiManut;
     private javax.swing.JFormattedTextField jFormattedTextGap;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1239,6 +1193,7 @@ public class FormEquipamento extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableEquipamento;
     private javax.swing.JTextArea jTextAreaHistInicial;
+    private javax.swing.JLabel lblAtendimentos;
     private javax.swing.JLabel lblCliente;
     private javax.swing.JLabel lblCodigo;
     private javax.swing.JLabel lblContrato;
@@ -1252,6 +1207,7 @@ public class FormEquipamento extends javax.swing.JFrame {
     private javax.swing.JLabel lblNome;
     private javax.swing.JLabel lblNomeFoto;
     private javax.swing.JLabel lblUltManut;
+    private javax.swing.JTextField txtAtendimentos;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtFabricante;
     private javax.swing.JTextField txtModelo;

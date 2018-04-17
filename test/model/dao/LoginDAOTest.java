@@ -14,9 +14,9 @@ import org.junit.Ignore;
  *
  * @author Master
  */
-public class UsuarioDAOTest {
+public class LoginDAOTest {
     
-    public UsuarioDAOTest() {
+    public LoginDAOTest() {
     }
 
     @Test

@@ -33,7 +33,7 @@ public class EquipamentoDAO {
 
     public boolean saveEquipamento(Equipamento equipamento) {
 
-        String sql = "INSERT INTO equipamento(nome, fabricante, modelo, dt_fabric, dt_instal, histor_inicial, gap_manut, dt_ultimanut,"
+        String sql = "INSERT INTO equipamento(nome, fabricante,  modelo, dt_fabric, dt_instal, gap_manut, dt_ultimanut, histor_inicial, "
                 + " foto, cliente_idcliente, contrato_idcontrato) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
         PreparedStatement stmt = null;
@@ -46,9 +46,9 @@ public class EquipamentoDAO {
             stmt.setString(3, equipamento.getModelo());
             stmt.setString(4, equipamento.getDt_fabric());
             stmt.setString(5, equipamento.getDt_instal());
-            stmt.setString(6, equipamento.getHistor_inicial());
-            stmt.setString(7, equipamento.getGap_manut());
-            stmt.setString(8, equipamento.getDt_ultmanut());
+            stmt.setString(6, equipamento.getGap_manut());
+            stmt.setString(7, equipamento.getDt_ultimanut());
+            stmt.setString(8, equipamento.getHistor_inicial());
             stmt.setString(9, equipamento.getFoto());
             stmt.setInt(10, equipamento.getCliente().getIdcliente());
             stmt.setInt(11, equipamento.getContrato().getIdcontrato());
@@ -68,7 +68,8 @@ public class EquipamentoDAO {
 
     public boolean updateEquipamento(Equipamento equipamento) {
 
-        String sql = "UPDATE equipamento SET nome = ?, fabricante = ?, modelo = ?, dt_fabric = ?, dt_instal = ?, histor_inicial = ?, gap_manut = ?, dt_ultimanut = ?, foto = ?, cliente_idcliente = ?, contrato_idcontrato = ? WHERE idequip = ?";
+        String sql = "UPDATE equipamento SET nome = ?, fabricante = ?,  modelo = ?, dt_fabric = ?, dt_instal = ?, gap_manut = ?, histor_inicial = ?, "
+                + " foto = ?, cliente_idcliente = ?, contrato_idcontrato = ? WHERE idequip = ?";
 
         PreparedStatement stmt = null;
 
@@ -80,14 +81,13 @@ public class EquipamentoDAO {
             stmt.setString(3, equipamento.getModelo());
             stmt.setString(4, equipamento.getDt_fabric());
             stmt.setString(5, equipamento.getDt_instal());
-            stmt.setString(6, equipamento.getHistor_inicial());
-            stmt.setString(7, equipamento.getGap_manut());
-            stmt.setString(8, equipamento.getDt_ultmanut());
-            stmt.setString(9, equipamento.getFoto());
-            stmt.setInt(10, equipamento.getCliente().getIdcliente());
-            stmt.setInt(11, equipamento.getContrato().getIdcontrato());
-            
-            stmt.setInt(12, equipamento.getIdequip());
+            stmt.setString(6, equipamento.getGap_manut());
+            stmt.setString(7, equipamento.getHistor_inicial());
+            stmt.setString(8, equipamento.getFoto());
+            stmt.setInt(9, equipamento.getCliente().getIdcliente());
+            stmt.setInt(10, equipamento.getContrato().getIdcontrato());
+
+            stmt.setInt(11, equipamento.getIdequip());
 
             stmt.executeUpdate();
 
@@ -95,7 +95,7 @@ public class EquipamentoDAO {
             return true;
 
         } catch (SQLException ex) {
-            System.err.println("Erro: " + ex);
+            System.err.println("Erro: updateEquipamento" + ex);
             return false;
         } finally {
             ConnectionFactory.closeConnection(con, stmt);
@@ -119,13 +119,14 @@ public class EquipamentoDAO {
             return true;
 
         } catch (SQLException ex) {
-            System.err.println("Erro: " + ex);
+            System.err.println("Erro: deleteEquipamento" + ex);
             return false;
         } finally {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
 
+    //em uso
     public List<Equipamento> readAllEquipamento() {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -140,7 +141,7 @@ public class EquipamentoDAO {
             while (rs.next()) {
 
                 Equipamento equipamento = new Equipamento();
-                
+
                 equipamento.setNome(rs.getString("nome"));
                 equipamento.setFabricante(rs.getString("fabricante"));
                 equipamento.setModelo(rs.getString("modelo"));
@@ -148,20 +149,20 @@ public class EquipamentoDAO {
                 equipamento.setDt_instal(rs.getString("dt_instal"));
                 equipamento.setHistor_inicial(rs.getString("histor_inicial"));
                 equipamento.setGap_manut(rs.getString("gap_manut"));
-                equipamento.setDt_ultmanut(rs.getString("dt_ultimanut"));
+                equipamento.setDt_ultimanut(rs.getString("dt_ultimanut"));
+                equipamento.setAtendimentos(rs.getInt("atendimentos"));
                 equipamento.setDt_inic_contrato(rs.getString("dt_inic_contrato"));
                 equipamento.setFoto(rs.getString("foto"));
-                
+
                 Cliente cliente = new Cliente();
                 cliente.setIdcliente(rs.getInt("cliente_idcliente"));
-                
+
                 equipamento.setCliente(cliente);
-                
+
                 Contrato contrato = new Contrato();
                 contrato.setIdcontrato(rs.getInt("contrato_idcontrato"));
-                
+
                 equipamento.setContrato(contrato);
-                
 
                 equipamentos.add(equipamento);
 
@@ -198,20 +199,20 @@ public class EquipamentoDAO {
                 equipamento.setDt_instal(rs.getString("dt_instal"));
                 equipamento.setHistor_inicial(rs.getString("histor_inicial"));
                 equipamento.setGap_manut(rs.getString("gap_manut"));
-                equipamento.setDt_ultmanut(rs.getString("dt_ultmanut"));
+                equipamento.setDt_ultimanut(rs.getString("dt_ultimanut"));
+                equipamento.setAtendimentos(rs.getInt("atendimentos"));
                 equipamento.setDt_inic_contrato(rs.getString("dt_inic_contrato"));
                 equipamento.setFoto(rs.getString("foto"));
-                
+
                 Cliente cliente = new Cliente();
                 cliente.setIdcliente(rs.getInt("idcliente"));
-                
+
                 equipamento.setCliente(cliente);
-                
+
                 Contrato contrato = new Contrato();
                 contrato.setIdcontrato(rs.getInt("idcontrato"));
-                
+
                 equipamento.setContrato(contrato);
-                
 
                 equipamentos.add(equipamento);
 
@@ -224,7 +225,7 @@ public class EquipamentoDAO {
 
         return equipamentos;
     }
-    
+
     public List<Equipamento> readTableAllEquipamento() {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -233,8 +234,9 @@ public class EquipamentoDAO {
         List<Equipamento> equipamentos = new ArrayList<>();
 
         try {
-            stmt = con.prepareStatement("SELECT e.idequip, e.nome, e.fabricante, e.modelo, e.dt_fabric, e.dt_instal, e.histor_inicial,"
-                    + " e.gap_manut, e.dt_ultimanut, e.dt_inic_contrato, e.foto, cl.idcliente, cl.nome as clinome, co.idcontrato, co.tipodesc"
+            stmt = con.prepareStatement("SELECT e.idequip, e.dt_inic_contrato, e.nome, e.fabricante, e.modelo, e.dt_fabric, e.dt_instal,"
+                    + " e.gap_manut, e.dt_ultimanut, e.atendimentos,  e.histor_inicial, e.foto, cl.idcliente, cl.nome as clinome, co.idcontrato,"
+                    + " co.tipodesc"
                     + " FROM equipamento e"
                     + " INNER JOIN cliente cl"
                     + " INNER JOIN contrato co ON e.cliente_idcliente = cl.idcliente and e.contrato_idcontrato = co.idcontrato");
@@ -243,31 +245,31 @@ public class EquipamentoDAO {
             while (rs.next()) {
 
                 Equipamento equipamento = new Equipamento();
-                
+
                 equipamento.setIdequip(rs.getInt("idequip"));
+                equipamento.setDt_inic_contrato(rs.getString("dt_inic_contrato"));
                 equipamento.setNome(rs.getString("nome"));
                 equipamento.setFabricante(rs.getString("fabricante"));
                 equipamento.setModelo(rs.getString("modelo"));
                 equipamento.setDt_fabric(rs.getString("dt_fabric"));
                 equipamento.setDt_instal(rs.getString("dt_instal"));
-                equipamento.setHistor_inicial(rs.getString("histor_inicial"));
                 equipamento.setGap_manut(rs.getString("gap_manut"));
-                equipamento.setDt_ultmanut(rs.getString("dt_ultimanut"));
-                equipamento.setDt_inic_contrato(rs.getString("dt_inic_contrato"));
+                equipamento.setDt_ultimanut(rs.getString("dt_ultimanut"));
+                equipamento.setAtendimentos(rs.getInt("atendimentos"));
+                equipamento.setHistor_inicial(rs.getString("histor_inicial"));
                 equipamento.setFoto(rs.getString("foto"));
-                
+
                 Cliente cliente = new Cliente();
                 cliente.setIdcliente(rs.getInt("idcliente"));
                 cliente.setNome(rs.getString("clinome"));
-                
+
                 equipamento.setCliente(cliente);
-                
+
                 Contrato contrato = new Contrato();
                 contrato.setIdcontrato(rs.getInt("idcontrato"));
                 contrato.setTipodesc(rs.getString("tipodesc"));
-                
+
                 equipamento.setContrato(contrato);
-                
 
                 equipamentos.add(equipamento);
 
@@ -280,7 +282,8 @@ public class EquipamentoDAO {
 
         return equipamentos;
     }
-    
+
+    //em uso
     public List<Equipamento> readAllEquipamentoForComboboxOs(int indice) {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -296,10 +299,9 @@ public class EquipamentoDAO {
             while (rs.next()) {
 
                 Equipamento equipamento = new Equipamento();
-                
+
                 equipamento.setIdequip(rs.getInt("idequip"));
                 equipamento.setNome(rs.getString("nome"));
-                
 
                 equipamentos.add(equipamento);
 
@@ -312,8 +314,8 @@ public class EquipamentoDAO {
 
         return equipamentos;
     }
-    
-        public List<Equipamento> readAllEquipamentoForComboboxOs2(int indice) {
+
+    public List<Equipamento> readAllEquipamentoForComboboxOs2(int indice) {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -328,9 +330,8 @@ public class EquipamentoDAO {
             while (rs.next()) {
 
                 Equipamento equipamento = new Equipamento();
-                
+
                 equipamento.setNome(rs.getString("nome"));
-                
 
                 equipamentos.add(equipamento);
 
